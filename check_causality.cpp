@@ -196,8 +196,8 @@ void get_sorted_eigenvalues_of_pi_mu_nu(
 			<< Lambda_0 << "   " << Lambda_1 << "   "
 			<< Lambda_2 << "   " << Lambda_3 << endl;
 
-	cout << "success = " << success << endl;
-	cout << "Lambdas: " << Lambda_0 << "   " << Lambda_1 << "   " << Lambda_2 << "   " << Lambda_3 << endl;
+	cerr << "success = " << success << endl;
+	//cout << "Lambdas: " << Lambda_0 << "   " << Lambda_1 << "   " << Lambda_2 << "   " << Lambda_3 << endl;
 
 	return;
 }
