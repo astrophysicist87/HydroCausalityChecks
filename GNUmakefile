@@ -39,7 +39,7 @@ INSTPATH	=	..
 # --------------- Pattern rules -------------------
 
 $(TARGET):
-	$(CC) $(MAINSRC) -o $(TARGET) $(CFLAGS) $(LDFLAGS) 
+	$(CC) $(MAINSRC) -o $(TARGET) $(CFLAGS) $(INCFLAGS)  $(LDFLAGS)
 
 # -------------------------------------------------
 
