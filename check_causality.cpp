@@ -154,7 +154,7 @@ void get_sorted_eigenvalues_of_pi_mu_nu(
 	gsl_eigen_nonsymmv_workspace *w = gsl_eigen_nonsymmv_alloc(4);
 	int success = gsl_eigen_nonsymmv (&mat.matrix, eval, evec, w);
 	gsl_eigen_nonsymmv_free(w);
-	gsl_eigen_nonsymmv_sort(eval, evec, GSL_EIGEN_SORT_VAL_ASC);
+	//gsl_eigen_nonsymmv_sort(eval, evec, GSL_EIGEN_SORT_VAL_ASC);
 
 	/*for (int i = 0; i < 4; i++)
     {
