@@ -142,10 +142,10 @@ void get_sorted_eigenvalues_of_pi_mu_nu(
 		double & Lambda_0, double & Lambda_1, double & Lambda_2, double & Lambda_3 )
 {
 	double m[16];
-	m[0]  =  pi00; m[1]  =  pi01; m[2]  =  pi02; m[3]  =  0.0;
-	m[4]  = -pi01; m[5]  = -pi11; m[6]  = -pi12; m[7]  =  0.0;
-	m[8]  = -pi02; m[9]  = -pi12; m[10] = -pi22; m[11] =  0.0;
-	m[12] =  0.0;  m[13] =  0.0;  m[14] =  0.0;  m[15] = -pi33;
+	m[0]  = -pi00; m[1]  = -pi01; m[2]  = -pi02; m[3]  =  0.0;
+	m[4]  =  pi01; m[5]  =  pi11; m[6]  =  pi12; m[7]  =  0.0;
+	m[8]  =  pi02; m[9]  =  pi12; m[10] =  pi22; m[11] =  0.0;
+	m[12] =  0.0;  m[13] =  0.0;  m[14] =  0.0;  m[15] =  pi33;
 
 	gsl_vector_complex *eval = gsl_vector_complex_alloc(4);
 	gsl_matrix_complex *evec = gsl_matrix_complex_alloc(4, 4);
