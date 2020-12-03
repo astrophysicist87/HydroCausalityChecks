@@ -199,6 +199,9 @@ void get_sorted_eigenvalues_of_pi_mu_nu(
 	cerr << "success = " << success << endl;
 	//cout << "Lambdas: " << Lambda_0 << "   " << Lambda_1 << "   " << Lambda_2 << "   " << Lambda_3 << endl;
 
+	gsl_vector_complex_free(eval);
+	gsl_matrix_complex_free(evec);
+
 	return;
 }
 
