@@ -20,6 +20,8 @@
 
 using namespace std;
 
+const double epsilon = 1e-4;
+
 bool test_mode;
 
 double tau, x, y;
@@ -31,7 +33,7 @@ double delta_PiPi, lambda_Pipi, delta_pipi, lambda_piPi,
 
 double Lambda_0, Lambda_1, Lambda_2, Lambda_3;
 
-void get_sorted_eigenvalues_of_pi_mu_nu(
+bool get_sorted_eigenvalues_of_pi_mu_nu(
 		const double pi00, const double pi01, const double pi02, const double pi11,
 		const double pi12, const double pi22, const double pi33,
 		double & Lambda_0, double & Lambda_1, double & Lambda_2, double & Lambda_3 );
@@ -67,9 +69,9 @@ int main(int argc, char *argv[])
 		cs2 = rands[12];
 
 		Lambda_0 = 0.0; Lambda_1 = 0.0; Lambda_2 = 0.0; Lambda_3 = 0.0;
-		get_sorted_eigenvalues_of_pi_mu_nu(
-			pi00, pi01, pi02, pi11, pi12, pi22, pi33,
-			Lambda_0, Lambda_1, Lambda_2, Lambda_3 );
+		bool eigenSuccess = get_sorted_eigenvalues_of_pi_mu_nu(
+							pi00, pi01, pi02, pi11, pi12, pi22, pi33,
+							Lambda_0, Lambda_1, Lambda_2, Lambda_3 );
 
 		vector<bool> necessary_conditions(6, false);
 		vector<bool> sufficient_conditions(8, false);
@@ -80,7 +82,8 @@ int main(int argc, char *argv[])
 		for ( const auto & nc : necessary_conditions ) cout << static_cast<int>( nc );
 		cout << "   ";
 		for ( const auto & sc : sufficient_conditions ) cout << static_cast<int>( sc );
-		cout << "   " << tau << "   " << x << "   " << y << endl;
+		cout << "   " << tau << "   " << x << "   " << y  << "   "
+				<< T << "   " << e << "   " << static_cast<int>(eigenSuccess) << endl;
 	}
 	else
 	{
@@ -105,9 +108,9 @@ int main(int argc, char *argv[])
 					>> phi_7 >> tau_pipi >> Tr_pi_sigma;
 	
 				Lambda_0 = 0.0; Lambda_1 = 0.0; Lambda_2 = 0.0; Lambda_3 = 0.0;
-				get_sorted_eigenvalues_of_pi_mu_nu(
-					pi00, pi01, pi02, pi11, pi12, pi22, pi33,
-					Lambda_0, Lambda_1, Lambda_2, Lambda_3 );
+				bool eigenSuccess = get_sorted_eigenvalues_of_pi_mu_nu(
+									pi00, pi01, pi02, pi11, pi12, pi22, pi33,
+									Lambda_0, Lambda_1, Lambda_2, Lambda_3 );
 
 				vector<bool> necessary_conditions(6, false);
 				vector<bool> sufficient_conditions(8, false);
@@ -124,7 +127,8 @@ int main(int argc, char *argv[])
 				for ( const auto & nc : necessary_conditions ) cout << static_cast<int>( nc );
 				cout << "   ";
 				for ( const auto & sc : sufficient_conditions ) cout << static_cast<int>( sc );
-				cout << "   " << tau << "   " << x << "   " << y << endl;
+				cout << "   " << tau << "   " << x << "   " << y  << "   "
+						<< T << "   " << e << "   " << static_cast<int>(eigenSuccess) << endl;
 
 				//if (1) exit(8);
 			}
@@ -136,7 +140,7 @@ int main(int argc, char *argv[])
 	return (0);
 }
 
-void get_sorted_eigenvalues_of_pi_mu_nu(
+bool get_sorted_eigenvalues_of_pi_mu_nu(
 		const double pi00, const double pi01, const double pi02, const double pi11,
 		const double pi12, const double pi22, const double pi33,
 		double & Lambda_0, double & Lambda_1, double & Lambda_2, double & Lambda_3 )
@@ -154,18 +158,26 @@ void get_sorted_eigenvalues_of_pi_mu_nu(
 	gsl_eigen_nonsymmv_workspace *w = gsl_eigen_nonsymmv_alloc(4);
 	int success = gsl_eigen_nonsymmv (&mat.matrix, eval, evec, w);
 	gsl_eigen_nonsymmv_free(w);
+
+	// sort by magnitude first
+	gsl_eigen_nonsymmv_sort(eval, evec, GSL_EIGEN_SORT_ABS_ASC);
+	Lambda_0 = GSL_REAL(gsl_vector_complex_get(eval, 0));
+	double ratio = abs(Lambda_0 / (GSL_REAL(gsl_vector_complex_get(eval, 3))+epsilon));
+
+	/*cout << "Check #1 here: "
+		<< GSL_REAL(gsl_vector_complex_get(eval, 0)) << "   "
+		<< GSL_REAL(gsl_vector_complex_get(eval, 1)) << "   "
+		<< GSL_REAL(gsl_vector_complex_get(eval, 2)) << "   "
+		<< GSL_REAL(gsl_vector_complex_get(eval, 3)) << endl;*/
+
+	// sort by value next
 	gsl_eigen_nonsymmv_sort(eval, evec, GSL_EIGEN_SORT_VAL_ASC);
 
-	/*for (int i = 0; i < 4; i++)
-    {
-        gsl_complex eval_i
-           = gsl_vector_complex_get (eval, i);
-        gsl_vector_complex_view evec_i
-           = gsl_matrix_complex_column (evec, i);
-
-        printf ("eigenvalue = %g + %gi\n",
-                GSL_REAL(eval_i), GSL_IMAG(eval_i));
-	}*/
+	/*cout << "Check #2 here: "
+		<< GSL_REAL(gsl_vector_complex_get(eval, 0)) << "   "
+		<< GSL_REAL(gsl_vector_complex_get(eval, 1)) << "   "
+		<< GSL_REAL(gsl_vector_complex_get(eval, 2)) << "   "
+		<< GSL_REAL(gsl_vector_complex_get(eval, 3)) << endl;*/
 
 	double tmp0 = GSL_REAL(gsl_vector_complex_get(eval, 0));
 	double tmp1 = GSL_REAL(gsl_vector_complex_get(eval, 1));
@@ -174,35 +186,26 @@ void get_sorted_eigenvalues_of_pi_mu_nu(
 
 
 	// sort eval by values
-	Lambda_0 = 0.0;
+	//Lambda_0 = 0.0;
 	Lambda_1 = tmp0;
-	Lambda_2 = ( abs(tmp1) > 1e-4 ) ? tmp1 : tmp2;
+	Lambda_2 = ( abs(tmp1) > abs(tmp2) ) ? tmp1 : tmp2;
 	Lambda_3 = tmp3;
 
-	if ( 	abs( tmp0 ) > 1e-4
-		and abs( tmp1 ) > 1e-4
-		and abs( tmp2 ) > 1e-4
-		and abs( tmp3 ) > 1e-4
-		)
+	if ( ratio > epsilon )
 	{
-		cerr << "ERROR: no zero eigenvalues found!" << endl
+		cerr << "ERROR: no zero eigenvalues found!  " << endl
+			<< ratio << " > " << epsilon << ":" << endl
 			<< tmp0 << "   " << tmp1 << "   " << tmp2 << "   " << tmp3 << "   ";
 		cerr << pi00 << "   " << pi01 << "   " << pi02 << "   "
 			<< pi11 << "   " << pi12 << "   " << pi22 << "   " << pi33 << endl;
 	}
-
-	cerr << "Check eigenvalues: " << tmp0 << "   " << tmp1 << "   "
-			<< tmp2 << "   " << tmp3 << ";   "
-			<< Lambda_0 << "   " << Lambda_1 << "   "
-			<< Lambda_2 << "   " << Lambda_3 << endl;
-
-	cerr << "success = " << success << endl;
-	//cout << "Lambdas: " << Lambda_0 << "   " << Lambda_1 << "   " << Lambda_2 << "   " << Lambda_3 << endl;
+	//else
+	//	cerr << "Found zero eigenvalue with ratio = " << ratio << endl;
 
 	gsl_vector_complex_free(eval);
 	gsl_matrix_complex_free(evec);
 
-	return;
+	return ( ( success == 0 ) and ( ratio <= epsilon ) );
 }
 
 
