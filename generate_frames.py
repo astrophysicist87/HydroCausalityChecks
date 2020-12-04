@@ -69,12 +69,12 @@ def generate_frame(frameNumber):
     
     #plt.show()
     outfilename = outpath + '/slide%(frame)03d.png' % {'frame': frameNumber}
-    print 'Saving to', outfilename
+    print('Saving to', outfilename)
     plt.savefig(outfilename, bbox_inches='tight')
 
 #===============================================================================
 if __name__ == "__main__":
     # generate frames one by one
     for frameNumber in xrange(minFrameNumber, maxFrameNumber+1):
-        print 'Generating frame =', frameNumber
+        print('Generating frame =', frameNumber)
         generate_frame(frameNumber)
