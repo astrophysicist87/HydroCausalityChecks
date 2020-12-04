@@ -34,7 +34,7 @@ def colorFunction(entry):
 #===============================================================================
 def generate_frame(frameNumber):
     # load data to plot
-    frameData = np.loadtxt(inpath + '/frame'+str(frameNumber)+'.dat')
+    frameData = np.loadtxt(inpath + '/frame%(frame)03d.dat' % {'frame': frameNumber})
     if frameData.size == 0:
         frameData = np.array([[0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0]])
     else:
