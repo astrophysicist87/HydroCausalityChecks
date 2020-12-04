@@ -75,6 +75,6 @@ def generate_frame(frameNumber):
 #===============================================================================
 if __name__ == "__main__":
     # generate frames one by one
-    for frameNumber in xrange(minFrameNumber, maxFrameNumber+1):
+    for frameNumber in range(minFrameNumber, maxFrameNumber+1):
         print('Generating frame =', frameNumber)
         generate_frame(frameNumber)
