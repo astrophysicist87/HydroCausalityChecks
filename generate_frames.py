@@ -44,7 +44,7 @@ def generate_frame(frameNumber):
             frameData = frameData[np.where(frameData[:,6] >= eDec)]
     dataToPlot = frameData[:,[3,4]]
 
-    fig, ax = plt.subplots(1,1)
+    fig, ax = plt.subplots( nrows=1, ncols=1 )
     
     # histogram with each entry weighted by causality conditions
     vals = np.array([colorFunction(entry) for entry in frameData])
@@ -70,7 +70,7 @@ def generate_frame(frameNumber):
     #plt.show()
     outfilename = outpath + '/slide%(frame)03d.png' % {'frame': frameNumber}
     print('Saving to', outfilename)
-    plt.savefig(outfilename, bbox_inches='tight')
+    fig.savefig(outfilename, bbox_inches='tight')
 
 #===============================================================================
 if __name__ == "__main__":
