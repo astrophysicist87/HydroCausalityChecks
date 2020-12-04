@@ -11,6 +11,7 @@ maxFrameNumber = int(sys.argv[3])
 inpath = sys.argv[4]
 outpath = sys.argv[5]
 
+tau = 0.6   #initial tau (fm/c)
 dx = 0.1
 dy = 0.1
 scalex = scale
@@ -37,6 +38,7 @@ def generate_frame(frameNumber):
     if frameData.size == 0:
         frameData = np.array([[0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0]])
     else:
+        tau = frameData[0,2]
         frameData = np.unique(frameData, axis=0)
         if energyCutOff:
             frameData = frameData[np.where(frameData[:,6] >= eDec)]
@@ -60,6 +62,10 @@ def generate_frame(frameNumber):
                   extent=[-scalex-0.5*dx,scalex+0.5*dx,-scaley-0.5*dy,scaley+0.5*dy], \
                   cmap=ListedColormap(['black','red','purple','blue']),
                   vmin=0, vmax=3)
+                  
+    plt.text(0.075, 0.925, r'$\tau = %(t)5.2f$ fm$/c$'%{'t': tau}, \
+            {'color': 'white', 'fontsize': 12}, transform=ax.transAxes,
+            horizontalalignment='left', verticalalignment='top')
     
     #plt.show()
     outfilename = outpath + '/slide%(frame)03d.png' % {'frame': frameNumber}
