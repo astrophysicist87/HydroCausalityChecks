@@ -58,7 +58,7 @@ def generate_frame(frameNumber):
     #print 'Iffy:', vals[np.where(vals==2)].shape
     #print 'Bad:', vals[np.where(vals==1)].shape
         
-    plt.imshow(H.astype(int), interpolation='nearest', origin='low', \
+    ax.imshow(H.astype(int), interpolation='nearest', origin='low', \
                   extent=[-scalex-0.5*dx,scalex+0.5*dx,-scaley-0.5*dy,scaley+0.5*dy], \
                   cmap=ListedColormap(['black','red','purple','blue']),
                   vmin=0, vmax=3)
