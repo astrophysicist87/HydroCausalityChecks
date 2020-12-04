@@ -1,8 +1,25 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.colors import ListedColormap, BoundaryNorm
+from matplotlib.colors import ListedColormap
+import sys
 
-path = "C:/Users/Christopher Plumberg/Desktop/Research/UIUC/HydroCausalityChecks/"
+# fix command-line arguments
+#path = "C:/Users/Christopher Plumberg/Desktop/Research/UIUC/HydroCausalityChecks/"
+scale = float(sys.argv[1])
+minFrameNumber = int(sys.argv[2])
+maxFrameNumber = int(sys.argv[3])
+inpath = sys.argv[4]
+outpath = sys.argv[5]
+
+dx = 0.1
+dy = 0.1
+scalex = scale
+scaley = scale
+nxbins = int(np.round(1.0+2.0*scalex/dx))
+nybins = int(np.round(1.0+2.0*scaley/dx))
+
+energyCutOff = True
+eDec = 0.3  # GeV/fm^3
 
 #===============================================================================
 def colorFunction(entry):
@@ -16,58 +33,42 @@ def colorFunction(entry):
 #===============================================================================
 def generate_frame(frameNumber):
     # load data to plot
-    frameData = np.unique(np.loadtxt(path + 'frame'+str(frameNumber)+'.dat'), axis=0)
-    
+    frameData = np.loadtxt(inpath + 'frame'+str(frameNumber)+'.dat')
+    if frameData.size == 0:
+        frameData = np.array([[0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0]])
+    else:
+        frameData = np.unique(frameData, axis=0)
+        if energyCutOff:
+            frameData = frameData[np.where(frameData[:,6] >= eDec)]
     dataToPlot = frameData[:,[3,4]]
-    
-    #print dataToPlot.shape
 
-    #mycmap = ListedColormap(['r', 'g', 'b'])
-    #norm = BoundaryNorm([0,1,2], cmap.N)
-    
     fig, ax = plt.subplots(1,1)
     
-    #ax.pcolormesh(dataToPlot[:,0], dataToPlot[:,1], dataToPlot[:,2], cmap=mycmap, vmin=0, vmax=2)
-    #ax.hist2d(dataToPlot[:,0], dataToPlot[:,1], bins=(80, 10), color)
-    #n, bins, patches = ax.hist2d(dataToPlot[:,0], dataToPlot[:,1])
-    # create data
-    #x = np.random.normal(size=50000)
-    #y = x * 3 + np.random.normal(size=50000)
-    
-    # Big bins
+    # histogram with each entry weighted by causality conditions
     vals = np.array([colorFunction(entry) for entry in frameData])
-    H, xedges, yedges = np.histogram2d(dataToPlot[:,0], dataToPlot[:,1], bins=(261, 261), \
-                        weights=vals, range=[[-13.05,13.05],[-13.05,13.05]])
-    
-    X, Y = np.meshgrid(xedges, yedges)
-    
-    #print vals.shape
+    H, xedges, yedges = np.histogram2d(dataToPlot[:,0], dataToPlot[:,1], \
+                        bins=(nxbins, nybins), weights=vals, \
+                        range=[[-scalex-0.5*dx,scalex+0.5*dx],
+                               [-scaley-0.5*dy,scaley+0.5*dy]])
+        
+    #print 'Total:', vals.shape
     #print 'Good:', vals[np.where(vals==3)].shape
     #print 'Iffy:', vals[np.where(vals==2)].shape
     #print 'Bad:', vals[np.where(vals==1)].shape
-    
-    factor = 1
-    #if frameNumber >= 622:
-    #    factor = 0
-    
-    plt.imshow(factor*(H.astype(int)), interpolation='nearest', origin='low', \
-                  extent=[-13.05,13.05,-13.05,13.05], \
+        
+    plt.imshow(H.astype(int), interpolation='nearest', origin='low', \
+                  extent=[-scalex-0.5*dx,scalex+0.5*dx,-scaley-0.5*dy,scaley+0.5*dy], \
                   cmap=ListedColormap(['black','red','purple','blue']),
                   vmin=0, vmax=3)
     
-    #for cell in H.ravel():
-    #    cell.set_facecolor(colorFunction)
-
     #plt.show()
-    outfilename = path + '/slide%(frame)03d.png' % {'frame': frameNumber}
+    outfilename = outpath + '/slide%(frame)03d.png' % {'frame': frameNumber}
     print 'Saving to', outfilename
     plt.savefig(outfilename, bbox_inches='tight')
 
 #===============================================================================
 if __name__ == "__main__":
     # generate frames one by one
-    for frameNumber in xrange(622):
+    for frameNumber in xrange(minFrameNumber, maxFrameNumber+1):
         print 'Generating frame =', frameNumber
         generate_frame(frameNumber)
-    #for frameNumber in xrange(622,651):
-    #    generate_frame(frameNumber)
