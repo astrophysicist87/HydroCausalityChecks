@@ -40,13 +40,15 @@ def generate_frame(frameNumber):
     # load data to plot
     global tau
     frameData = np.loadtxt(inpath + '/frame%(frame)03d.dat' % {'frame': frameNumber})
-    if frameData.size == 0:
-        frameData = np.array([[0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0]])
-    else:
+    if frameData.size != 0:
         tau = frameData[0,2]
         frameData = np.unique(frameData, axis=0)
         if energyCutOff:
             frameData = frameData[np.where(frameData[:,6] >= eDec)]
+            
+    if frameData.size == 0:
+        frameData = np.array([[0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0]])
+        
     dataToPlot = frameData[:,[4,3]]     # swap x and y to get correct orientation
 
     fig, ax = plt.subplots( nrows=1, ncols=1 )
