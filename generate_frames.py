@@ -47,7 +47,7 @@ def generate_frame(frameNumber):
         frameData = np.unique(frameData, axis=0)
         if energyCutOff:
             frameData = frameData[np.where(frameData[:,6] >= eDec)]
-    dataToPlot = frameData[:,[3,4]]
+    dataToPlot = frameData[:,[4,3]]     # swap x and y to get correct orientation
 
     fig, ax = plt.subplots( nrows=1, ncols=1 )
     
@@ -71,6 +71,9 @@ def generate_frame(frameNumber):
     plt.text(0.075, 0.925, r'$\tau = %(t)5.2f$ fm$/c$'%{'t': tau}, \
             {'color': 'white', 'fontsize': 12}, transform=ax.transAxes,
             horizontalalignment='left', verticalalignment='top')
+            
+    ax.set_xlabel(r'$x$ (fm)', fontsize=16)
+    ax.set_ylabel(r'$y$ (fm)', fontsize=16)
     
     #plt.show()
     outfilename = outpath + '/slide%(frame)03d.png' % {'frame': frameNumber}
