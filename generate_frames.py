@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 import sys
 
+hbarc = 0.19733     # GeV*fm
+
 # fix command-line arguments
 #path = "C:/Users/Christopher Plumberg/Desktop/Research/UIUC/HydroCausalityChecks/"
 scale = float(sys.argv[1])
@@ -22,7 +24,7 @@ nxbins = int(np.round(1.0+2.0*scalex/dx))
 nybins = int(np.round(1.0+2.0*scaley/dx))
 
 energyCutOff = True
-eDec = 0.3  # GeV/fm^3
+eDec = 0.3/hbarc  # impose cut off in fm^{-4}
 
 #===============================================================================
 def colorFunction(entry):
@@ -36,6 +38,7 @@ def colorFunction(entry):
 #===============================================================================
 def generate_frame(frameNumber):
     # load data to plot
+    global tau
     frameData = np.loadtxt(inpath + '/frame%(frame)03d.dat' % {'frame': frameNumber})
     if frameData.size == 0:
         frameData = np.array([[0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0]])
@@ -78,6 +81,6 @@ def generate_frame(frameNumber):
 #===============================================================================
 if __name__ == "__main__":
     # generate frames one by one
-    for frameNumber in range(minFrameNumber, maxFrameNumber+1):
+    for frameNumber in range(minFrameNumber, maxFrameNumber):
         print 'Generating frame =', frameNumber
         generate_frame(frameNumber)
