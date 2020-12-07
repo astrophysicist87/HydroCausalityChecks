@@ -1,5 +1,5 @@
-#!/bin/bash
-#----------
+#!/usr/bin/env bash
+#------------------
 
 cwd=`pwd`
 
@@ -9,31 +9,15 @@ fileName=`basename $filePath`
 
 (
 	cd $fileDirec
+	rm -rf frames slides out.mp4
 	mkdir frames
 	mkdir slides
-
-	#i=0
-	#j=0
-	#for t in $(seq 0.6 0.02 20)
-	#do
-	#	printf "Generating frame %d at t=%f..." $i $t
-	#	awk -v tau=$t '$3==tau' $fileName > frames/frame`echo $i`.dat
-	#	nlines=`wc -l frames/frame${i}.dat | awk '{print $1}'`
-	#	if [ "$nlines" -eq "0" ]; then
-	#		j=$[j+1]
-	#	fi
-	#	if [ "$j" -gt "10" ]; then
-	#		break
-	#	fi
-	#
-	#	i=$[i+1]
-	#	printf "done!\n"
-	#done
 
 	# assuming same number of lines for each tau...
 	split --lines=$3 -d --suffix-length=3 $fileName frames/frame
 	nFiles=`\ls -1 frames/frame* | wc -l`
-	for ((i=$nFiles; i<=$[nFiles+10]; i++))
+	#for ((i=$nFiles; i<=$[nFiles+10]; i++))
+	for i in $(seq -f "%03g" $nFiles $[nFiles+10])
 	do
 		echo > frames/frame${i}
 	done
@@ -41,9 +25,15 @@ fileName=`basename $filePath`
 	do
 		mv $file $file".dat"
 	done
+)
+	i=`\ls -1 $fileDirec/frames/frame* | wc -l`
+	echo 'Executing python generate_frames.py '$2' 0 '$i' '$fileDirec'/frames '$fileDirec'/slides'
+	python generate_frames.py $2 0 $i $fileDirec/frames $fileDirec/slides
 
-	python $cwd/generate_frames.py $2 0 $i `readlink -e frames` `readlink -e slides`
-
+(
+	cd $fileDirec
 	framesPerSecond=60
 	pngs2mp4 $framesPerSecond slides/slide%03d.png out.mp4  
+        framesPerSecond=5
+        pngs2mp4 $framesPerSecond slides/slide_wReg%03d.png out_wReg.mp4
 )
