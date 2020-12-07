@@ -135,21 +135,25 @@ def generate_frame_wRegulation(frameNumber):
     # (assumed to be one directory level up)
     piViolations = np.loadtxt(inpath + '/../piViolation.dat')
     BulkPiViolations = np.loadtxt(inpath + '/../BulkpiViolation.dat')
-    piViolations = piViolations[np.where( np.isclose(piViolations[:,0], tau) \
-                                & (piViolations[:,1]>0) \
-                                & (piViolations[:,1]<1) )] \
-                   if piViolations.size > 0 \
-                   else np.array([[-1000.0,-1000.0],[-1000.0,1000.0],\
-                                  [1000.0,-1000.0], [1000.0,1000.0]])
-    BulkPiViolations = BulkPiViolations[np.where( np.isclose(BulkPiViolations[:,0], tau) )] \
-                   if BulkPiViolations.size > 0 \
-                   else np.array([[-1000.0,-1000.0],[-1000.0,1000.0],\
-                                  [1000.0,-1000.0], [1000.0,1000.0]])
+    if piViolations.size > 0:
+        piViolations = piViolations[np.where( np.isclose(piViolations[:,0], tau) \
+                                & (piViolations[:,1]>0) & (piViolations[:,1]<1) )]
+    else:
+        piViolations = np.array([[-1000.0,-1000.0],[-1000.0,1000.0],
+                                 [1000.0,-1000.0], [1000.0,1000.0]])
+    if BulkPiViolations.size > 0:
+        BulkPiViolations = BulkPiViolations[np.where( np.isclose(BulkPiViolations[:,0], tau) )]
+    else:
+        BulkPiViolations = np.array([[-1000.0,-1000.0],[-1000.0,1000.0],\
+                                     [1000.0,-1000.0], [1000.0,1000.0]])
+                                     
     # plot only cells above relevant eDec threshold
     dataToPlot = np.unique( np.vstack( (piViolations[:,[-2,-1]], BulkPiViolations[:,[-2,-1]]) ) )
     print "piViolations.shape =", piViolations.shape
     print "BulkPiViolations.shape =", BulkPiViolations.shape
     print "dataToPlot.shape =", dataToPlot.shape
+    print piViolations
+    print BulkPiViolations
     print dataToPlot
     if dataToPlot.size>0:
         eAtCells = np.array([get_value(point, frameDataCopy[:,3], frameDataCopy[:,4], frameDataCopy[:,6])\
