@@ -143,12 +143,13 @@ def generate_frame_wRegulation(frameNumber):
     BulkPiViolations = BulkPiViolations[np.where( np.isclose(BulkPiViolations[:,0], tau) )] \
                    if BulkPiViolations.size > 0 \
                    else np.array([[1000.0,1000.0]])
-    # swap x and y for consistency with above
+    # plot only cells above relevant eDec threshold
     dataToPlot = np.unique( np.vstack( (piViolations[:,[-2,-1]], BulkPiViolations[:,[-2,-1]]) ) )
-    #eAtCells = np.array([energyDensity( point[0], point[1] ) for point in dataToPlot ])
-    eAtCells = np.array([get_value(point, frameDataCopy[:,3], frameDataCopy[:,4], frameDataCopy[:,6])\
-                         for point in dataToPlot ])
-    dataToPlot = dataToPlot[ np.where( eAtCells >= eDec ) ]
+    print "dataToPlot.shape =", dataToPlot.shape
+    if dataToPlot.size>0:
+        eAtCells = np.array([get_value(point, frameDataCopy[:,3], frameDataCopy[:,4], frameDataCopy[:,6])\
+                            for point in dataToPlot ])
+        dataToPlot = dataToPlot[ np.where( eAtCells >= eDec ) ]
 
     # to avoid throwing exceptions...
     if dataToPlot.size==0:
