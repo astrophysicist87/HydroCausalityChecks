@@ -147,6 +147,8 @@ def generate_frame_wRegulation(frameNumber):
                                   [1000.0,-1000.0], [1000.0,1000.0]])
     # plot only cells above relevant eDec threshold
     dataToPlot = np.unique( np.vstack( (piViolations[:,[-2,-1]], BulkPiViolations[:,[-2,-1]]) ) )
+    print "piViolations.shape =", piViolations.shape
+    print "BulkPiViolations.shape =", BulkPiViolations.shape
     print "dataToPlot.shape =", dataToPlot.shape
     print dataToPlot
     if dataToPlot.size>0:
