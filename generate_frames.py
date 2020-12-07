@@ -114,7 +114,7 @@ def generate_frame_wRegulation(frameNumber):
                         range=[[-scalex-0.5*dx,scalex+0.5*dx],
                                [-scaley-0.5*dy,scaley+0.5*dy]])
                 
-    axs[0,0].imshow(H.astype(int), interpolation='nearest', origin='low', \
+    axs[0].imshow(H.astype(int), interpolation='nearest', origin='low', \
                   extent=[-scalex-0.5*dx,scalex+0.5*dx,-scaley-0.5*dy,scaley+0.5*dy], \
                   cmap=ListedColormap(['black','red','purple','blue']),
                   vmin=0, vmax=3)
@@ -134,12 +134,12 @@ def generate_frame_wRegulation(frameNumber):
                                     range=[[-scalex-0.5*dx,scalex+0.5*dx],
                                            [-scaley-0.5*dy,scaley+0.5*dy]])
         
-    axs[0,1].imshow(H.astype(int), interpolation='nearest', origin='low', \
+    axs[0].imshow(H.astype(int), interpolation='nearest', origin='low', \
                   extent=[-scalex-0.5*dx,scalex+0.5*dx,-scaley-0.5*dy,scaley+0.5*dy], \
                   cmap=ListedColormap(['black','white']), vmin=0, vmax=1)
                   
     plt.text(0.075, 0.925, r'$\tau = %(t)5.2f$ fm$/c$'%{'t': tau}, \
-            {'color': 'white', 'fontsize': 12}, transform=axs[0,0].transAxes,
+            {'color': 'white', 'fontsize': 12}, transform=axs[0].transAxes,
             horizontalalignment='left', verticalalignment='top')
             
     for ax in axs.ravel():
