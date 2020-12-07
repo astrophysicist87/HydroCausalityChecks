@@ -3,6 +3,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
+from scipy import interpolate
 import sys
 
 hbarc = 0.19733     # GeV*fm
@@ -49,7 +50,7 @@ def generate_frame(frameNumber):
     if frameData.size == 0:
         frameData = np.array([[0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0]])
         
-    dataToPlot = frameData[:,[4,3]]     # swap x and y to get correct orientation
+    dataToPlot = frameData[:,[3,4]]     # swap x and y to get correct orientation
 
     fig, ax = plt.subplots( nrows=1, ncols=1 )
     
@@ -64,7 +65,8 @@ def generate_frame(frameNumber):
     #print 'Good:', vals[np.where(vals==3)].shape
     #print 'Iffy:', vals[np.where(vals==2)].shape
     #print 'Bad:', vals[np.where(vals==1)].shape
-        
+    
+    H = H.T
     ax.imshow(H.astype(int), interpolation='nearest', origin='low', \
                   extent=[-scalex-0.5*dx,scalex+0.5*dx,-scaley-0.5*dy,scaley+0.5*dy], \
                   cmap=ListedColormap(['black','red','purple','blue']),
@@ -93,17 +95,19 @@ def generate_frame(frameNumber):
 def generate_frame_wRegulation(frameNumber):
     # load data to plot
     global tau
+    energyDensity = 0
     frameData = np.loadtxt(inpath + '/frame%(frame)03d.dat' % {'frame': frameNumber})
     if frameData.size != 0:
         tau = frameData[0,2]
         frameData = np.unique(frameData, axis=0)
+        energyDensity = interpolate.interp2d(frameData[:,3], frameData[:,4], frameData[:,6], kind='linear')
         if energyCutOff:
             frameData = frameData[np.where(frameData[:,6] >= eDec)]
             
     if frameData.size == 0:
-        frameData = np.array([[0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0]])
+        frameData = np.array([[0,0,0,-1000.0,-1000.0,0,0,0], [0,0,0,1000.0,1000.0,0,0,0]])
         
-    dataToPlot = frameData[:,[4,3]]     # swap x and y to get correct orientation
+    dataToPlot = frameData[:,[3,4]]     # swap x and y to get correct orientation
 
     fig, axs = plt.subplots( nrows=1, ncols=2, figsize=(10,5) )
     
@@ -114,6 +118,7 @@ def generate_frame_wRegulation(frameNumber):
                         range=[[-scalex-0.5*dx,scalex+0.5*dx],
                                [-scaley-0.5*dy,scaley+0.5*dy]])
                 
+    H = H.T
     axs[0].imshow(H.astype(int), interpolation='nearest', origin='low', \
                   extent=[-scalex-0.5*dx,scalex+0.5*dx,-scaley-0.5*dy,scaley+0.5*dy], \
                   cmap=ListedColormap(['black','red','purple','blue']),
@@ -123,20 +128,25 @@ def generate_frame_wRegulation(frameNumber):
     # (assumed to be one directory level up)
     piViolations = np.loadtxt(inpath + '/../piViolation.dat')
     BulkPiViolations = np.loadtxt(inpath + '/../BulkpiViolation.dat')
-    piViolations = piViolations[np.where( np.isclose(piViolations[:,0], tau) & (piViolations[:,1]>0) )] \
+    piViolations = piViolations[np.where( np.isclose(piViolations[:,0], tau) \
+                                & (piViolations[:,1]>0) \
+                                & (piViolations[:,1]>1) )] \
                    if piViolations.size > 0 \
                    else np.array([[1000.0,1000.0]])
     BulkPiViolations = BulkPiViolations[np.where( np.isclose(BulkPiViolations[:,0], tau) )] \
                    if BulkPiViolations.size > 0 \
                    else np.array([[1000.0,1000.0]])
     # swap x and y for consistency with above
-    dataToPlot = np.vstack( (piViolations[:,[-2,-1]], BulkPiViolations[:,[-2,-1]]) )
+    dataToPlot = np.unique( np.vstack( (piViolations[:,[-2,-1]], BulkPiViolations[:,[-2,-1]]) ) )
+    eAtCells = np.array([energyDensity( point[0], point[1] ) for point in dataToPlot ])
+    dataToPlot = dataToPlot[ np.where( eAtCells >= eDec ) ]
 
     H, xedges, yedges = np.histogram2d(dataToPlot[:,0], dataToPlot[:,1], \
                                     bins=(nxbins, nybins), \
                                     range=[[-scalex-0.5*dx,scalex+0.5*dx],
                                            [-scaley-0.5*dy,scaley+0.5*dy]])
         
+    H = H.T
     axs[1].imshow(H.astype(int), interpolation='nearest', origin='low', \
                   extent=[-scalex-0.5*dx,scalex+0.5*dx,-scaley-0.5*dy,scaley+0.5*dy], \
                   cmap=ListedColormap(['black','white']), vmin=0, vmax=1)
