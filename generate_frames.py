@@ -148,6 +148,8 @@ def generate_frame_wRegulation(frameNumber):
     # plot only cells above relevant eDec threshold
     dataToPlot = np.unique( np.vstack( (piViolations[:,[-2,-1]], BulkPiViolations[:,[-2,-1]]) ) )
     print "dataToPlot.shape =", dataToPlot.shape
+    if dataToPlot.size==1:
+        print dataToPlot
     if dataToPlot.size>0:
         eAtCells = np.array([get_value(point, frameDataCopy[:,3], frameDataCopy[:,4], frameDataCopy[:,6])\
                             for point in dataToPlot ])
