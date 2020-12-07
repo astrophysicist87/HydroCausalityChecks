@@ -100,7 +100,7 @@ def generate_frame_wRegulation(frameNumber):
     if frameData.size != 0:
         tau = frameData[0,2]
         frameData = np.unique(frameData, axis=0)
-        energyDensity = interpolate.interp2d(frameData[:,3], frameData[:,4], frameData[:,6], kind='bilinear')
+        energyDensity = interpolate.interp2d(frameData[:,3], frameData[:,4], frameData[:,6], kind='linear')
         if energyCutOff:
             frameData = frameData[np.where(frameData[:,6] >= eDec)]
             
