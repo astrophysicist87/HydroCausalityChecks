@@ -105,7 +105,7 @@ def generate_frame_wRegulation(frameNumber):
         
     dataToPlot = frameData[:,[4,3]]     # swap x and y to get correct orientation
 
-    fig, axs = plt.subplots( nrows=1, ncols=2 )
+    fig, axs = plt.subplots( nrows=1, ncols=2, figsize=(10,5) )
     
     # histogram with each entry weighted by causality conditions
     vals = np.array([colorFunction(entry) for entry in frameData])
@@ -137,7 +137,7 @@ def generate_frame_wRegulation(frameNumber):
                                     range=[[-scalex-0.5*dx,scalex+0.5*dx],
                                            [-scaley-0.5*dy,scaley+0.5*dy]])
         
-    axs[0].imshow(H.astype(int), interpolation='nearest', origin='low', \
+    axs[1].imshow(H.astype(int), interpolation='nearest', origin='low', \
                   extent=[-scalex-0.5*dx,scalex+0.5*dx,-scaley-0.5*dy,scaley+0.5*dy], \
                   cmap=ListedColormap(['black','white']), vmin=0, vmax=1)
                   
