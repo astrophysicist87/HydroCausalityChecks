@@ -95,17 +95,20 @@ def generate_frame(frameNumber):
 def generate_frame_wRegulation(frameNumber):
     # load data to plot
     global tau
-    energyDensity = 0
+    energyDensity = lambda x, y : 0.0
     frameData = np.loadtxt(inpath + '/frame%(frame)03d.dat' % {'frame': frameNumber})
     if frameData.size != 0:
         tau = frameData[0,2]
         frameData = np.unique(frameData, axis=0)
-        energyDensity = interpolate.interp2d(frameData[:,3], frameData[:,4], frameData[:,6], kind='linear')
+        energyDensity = interpolate.interp2d(frameData[:,3], frameData[:,4], frameData[:,6], kind='bilinear')
         if energyCutOff:
             frameData = frameData[np.where(frameData[:,6] >= eDec)]
             
     if frameData.size == 0:
-        frameData = np.array([[0,0,0,-1000.0,-1000.0,0,0,0], [0,0,0,1000.0,1000.0,0,0,0]])
+        frameData = np.array([[0,0,0,-1000.0,-1000.0,0,0,0],\
+                              [0,0,0,-1000.0,1000.0,0,0,0],\
+                              [0,0,0,1000.0,-1000.0,0,0,0],\
+                              [0,0,0,1000.0,1000.0,0,0,0]])
         
     dataToPlot = frameData[:,[3,4]]     # swap x and y to get correct orientation
 
@@ -140,6 +143,11 @@ def generate_frame_wRegulation(frameNumber):
     dataToPlot = np.unique( np.vstack( (piViolations[:,[-2,-1]], BulkPiViolations[:,[-2,-1]]) ) )
     eAtCells = np.array([energyDensity( point[0], point[1] ) for point in dataToPlot ])
     dataToPlot = dataToPlot[ np.where( eAtCells >= eDec ) ]
+
+    # to avoid throwing exceptions...
+    if dataToPlot.size==0:
+        dataToPlot = np.array([[-1000.0,-1000.0],[-1000.0,1000.0],\
+                               [1000.0,-1000.0], [1000.0,1000.0]])
 
     H, xedges, yedges = np.histogram2d(dataToPlot[:,0], dataToPlot[:,1], \
                                     bins=(nxbins, nybins), \
