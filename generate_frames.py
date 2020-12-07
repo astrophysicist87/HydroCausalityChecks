@@ -90,17 +90,21 @@ def generate_frame(frameNumber):
 #    # convert pi to make it easier to process
 #    piViolation[:,1] = int(np.round(1000.0*piViolation[:,1]))
     
+#===============================================================================
+def get_value(point, x, y, z):
+    return z[ np.where( np.isclose(x,point[0]) & np.isclose(y,point[1]) ) ]
 
 #===============================================================================
 def generate_frame_wRegulation(frameNumber):
     # load data to plot
     global tau
-    energyDensity = lambda x, y : 0.0
+    #energyDensity = lambda x, y : 0.0
     frameData = np.loadtxt(inpath + '/frame%(frame)03d.dat' % {'frame': frameNumber})
+    frameDataCopy = np.copy(frameData[:,[3,4,6]])
     if frameData.size != 0:
         tau = frameData[0,2]
         frameData = np.unique(frameData, axis=0)
-        energyDensity = interpolate.interp2d(frameData[:,3], frameData[:,4], frameData[:,6], kind='linear')
+        #energyDensity = interpolate.interp2d(frameData[:,3], frameData[:,4], frameData[:,6], kind='linear')
         if energyCutOff:
             frameData = frameData[np.where(frameData[:,6] >= eDec)]
             
@@ -141,7 +145,9 @@ def generate_frame_wRegulation(frameNumber):
                    else np.array([[1000.0,1000.0]])
     # swap x and y for consistency with above
     dataToPlot = np.unique( np.vstack( (piViolations[:,[-2,-1]], BulkPiViolations[:,[-2,-1]]) ) )
-    eAtCells = np.array([energyDensity( point[0], point[1] ) for point in dataToPlot ])
+    #eAtCells = np.array([energyDensity( point[0], point[1] ) for point in dataToPlot ])
+    eAtCells = np.array([get_value(point, frameDataCopy[:,3], frameDataCopy[:,4], frameDataCopy[:,6])\
+                         for point in dataToPlot ])
     dataToPlot = dataToPlot[ np.where( eAtCells >= eDec ) ]
 
     # to avoid throwing exceptions...
