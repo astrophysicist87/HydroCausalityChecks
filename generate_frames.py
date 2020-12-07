@@ -137,12 +137,14 @@ def generate_frame_wRegulation(frameNumber):
     BulkPiViolations = np.loadtxt(inpath + '/../BulkpiViolation.dat')
     piViolations = piViolations[np.where( np.isclose(piViolations[:,0], tau) \
                                 & (piViolations[:,1]>0) \
-                                & (piViolations[:,1]>1) )] \
+                                & (piViolations[:,1]<1) )] \
                    if piViolations.size > 0 \
-                   else np.array([[1000.0,1000.0]])
+                   else np.array([[-1000.0,-1000.0],[-1000.0,1000.0],\
+                                  [1000.0,-1000.0], [1000.0,1000.0]])
     BulkPiViolations = BulkPiViolations[np.where( np.isclose(BulkPiViolations[:,0], tau) )] \
                    if BulkPiViolations.size > 0 \
-                   else np.array([[1000.0,1000.0]])
+                   else np.array([[-1000.0,-1000.0],[-1000.0,1000.0],\
+                                  [1000.0,-1000.0], [1000.0,1000.0]])
     # plot only cells above relevant eDec threshold
     dataToPlot = np.unique( np.vstack( (piViolations[:,[-2,-1]], BulkPiViolations[:,[-2,-1]]) ) )
     print "dataToPlot.shape =", dataToPlot.shape
