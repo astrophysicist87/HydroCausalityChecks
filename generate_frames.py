@@ -123,10 +123,13 @@ def generate_frame_wRegulation(frameNumber):
     # (assumed to be one directory level up)
     piViolations = np.loadtxt(inpath + '/../piViolation.dat')
     BulkPiViolations = np.loadtxt(inpath + '/../BulkpiViolation.dat')
-    piViolations = piViolations[np.where( np.isclose(piViolations[:,0], tau) & (piViolations[:,1]>0) )]
-    BulkPiViolations = BulkPiViolations[np.where( np.isclose(BulkPiViolations[:,0], tau) )]
-
-    # swap x and y for consistency
+    piViolations = piViolations[np.where( np.isclose(piViolations[:,0], tau) & (piViolations[:,1]>0) )] \
+                   if piViolations.size > 0 \
+                   else np.array([[1000.0,1000.0]])
+    BulkPiViolations = BulkPiViolations[np.where( np.isclose(BulkPiViolations[:,0], tau) )] \
+                   if BulkPiViolations.size > 0 \
+                   else np.array([[1000.0,1000.0]])
+    # swap x and y for consistency with above
     dataToPlot = np.vstack( (piViolations[:,[-2,-1]], BulkPiViolations[:,[-2,-1]]) )
 
     H, xedges, yedges = np.histogram2d(dataToPlot[:,0], dataToPlot[:,1], \
