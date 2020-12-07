@@ -15,6 +15,12 @@ minFrameNumber = int(sys.argv[2])
 maxFrameNumber = int(sys.argv[3])
 inpath = sys.argv[4]
 outpath = sys.argv[5]
+'''scale=10
+minFrameNumber=0
+maxFrameNumber=40
+inpath="C:/Users/Christopher Plumberg/Desktop/Research/UIUC/HydroCausalityChecks/frames"
+outpath="C:/Users/Christopher Plumberg/Desktop/Research/UIUC/HydroCausalityChecks/slides"'''
+
 
 tau = 0.6   #initial tau (fm/c)
 dx = 0.1
@@ -100,10 +106,10 @@ def generate_frame_wRegulation(frameNumber):
     global tau
     #energyDensity = lambda x, y : 0.0
     frameData = np.loadtxt(inpath + '/frame%(frame)03d.dat' % {'frame': frameNumber})
-    frameDataCopy = np.copy(frameData[:,[3,4,6]])
     if frameData.size != 0:
         tau = frameData[0,2]
         frameData = np.unique(frameData, axis=0)
+        frameDataCopy = np.copy(frameData[:,[3,4,6]])
         #energyDensity = interpolate.interp2d(frameData[:,3], frameData[:,4], frameData[:,6], kind='linear')
         if energyCutOff:
             frameData = frameData[np.where(frameData[:,6] >= eDec)]
@@ -113,6 +119,7 @@ def generate_frame_wRegulation(frameNumber):
                               [0,0,0,-1000.0,1000.0,0,0,0],\
                               [0,0,0,1000.0,-1000.0,0,0,0],\
                               [0,0,0,1000.0,1000.0,0,0,0]])
+        frameDataCopy = np.copy(frameData[:,[3,4,6]])
         
     dataToPlot = frameData[:,[3,4]]     # swap x and y to get correct orientation
 
@@ -138,29 +145,31 @@ def generate_frame_wRegulation(frameNumber):
     if piViolations.size > 0:
         piViolations = piViolations[np.where( np.isclose(piViolations[:,0], tau) \
                                 & (piViolations[:,1]>0) & (piViolations[:,1]<1) )]
-    else:
+    if piViolations.size == 0:
         piViolations = np.array([[-1000.0,-1000.0],[-1000.0,1000.0],
                                  [1000.0,-1000.0], [1000.0,1000.0]])
     if BulkPiViolations.size > 0:
         BulkPiViolations = BulkPiViolations[np.where( np.isclose(BulkPiViolations[:,0], tau) )]
-    else:
+    if BulkPiViolations.size == 0:
         BulkPiViolations = np.array([[-1000.0,-1000.0],[-1000.0,1000.0],\
                                      [1000.0,-1000.0], [1000.0,1000.0]])
                                      
     # plot only cells above relevant eDec threshold
-    dataToPlot = np.unique( np.vstack( (piViolations[:,[-2,-1]], BulkPiViolations[:,[-2,-1]]) ) )
-    print "piViolations.shape =", piViolations.shape
-    print "BulkPiViolations.shape =", BulkPiViolations.shape
-    print "dataToPlot.shape =", dataToPlot.shape
-    print piViolations
-    print BulkPiViolations
-    print dataToPlot
+    dataToPlot = np.unique( np.vstack( (piViolations[:,[-2,-1]], BulkPiViolations[:,[-2,-1]]) ), axis=0 )
+    #print "piViolations.size =", piViolations.size
+    #print "BulkPiViolations.size =", BulkPiViolations.size
+    #print "dataToPlot.size =", dataToPlot.size
+    #print piViolations
+    #print BulkPiViolations
+    #print dataToPlot
     if dataToPlot.size>0:
-        eAtCells = np.array([get_value(point, frameDataCopy[:,3], frameDataCopy[:,4], frameDataCopy[:,6])\
+        #print "dataToPlot.shape =", dataToPlot.shape
+        #print "frameDataCopy.shape =", frameDataCopy.shape
+        eAtCells = np.array([get_value(point, frameDataCopy[:,0], frameDataCopy[:,1], frameDataCopy[:,2])\
                             for point in dataToPlot ])
         dataToPlot = dataToPlot[ np.where( eAtCells >= eDec ) ]
 
-    print dataToPlot
+    #print dataToPlot
 
     # to avoid throwing exceptions...
     if dataToPlot.size==0:
@@ -196,5 +205,5 @@ if __name__ == "__main__":
     # generate frames one by one
     for frameNumber in range(minFrameNumber, maxFrameNumber):
         print 'Generating frame =', frameNumber
-        generate_frame(frameNumber)
+        #generate_frame(frameNumber)
         generate_frame_wRegulation(frameNumber)
