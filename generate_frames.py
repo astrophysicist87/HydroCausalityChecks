@@ -146,19 +146,19 @@ def generate_frame_wRegulation(frameNumber):
     if piViolations.size > 0:
         piViolations = piViolations[np.where( np.isclose(piViolations[:,0], tau) \
                                 & (piViolations[:,1]>0) & (piViolations[:,1]<1)
-                                & (piViolations[:,-1]>=eDec*hbarc) )]
+                                & (piViolations[:,-1]>=eDec*hbarc) )][:,[-3,-2]]
     if piViolations.size == 0:
         piViolations = np.array([[-1000.0,-1000.0],[-1000.0,1000.0],
                                  [1000.0,-1000.0], [1000.0,1000.0]])
     if BulkPiViolations.size > 0:
         BulkPiViolations = BulkPiViolations[np.where( np.isclose(BulkPiViolations[:,0], tau)
-                                                      & (BulkPiViolations[:,-1]>=eDec*hbarc) )]
+                                                      & (BulkPiViolations[:,-1]>=eDec*hbarc) )][:,[-3,-2]]
     if BulkPiViolations.size == 0:
         BulkPiViolations = np.array([[-1000.0,-1000.0],[-1000.0,1000.0],\
                                      [1000.0,-1000.0], [1000.0,1000.0]])
                                      
     # plot only cells above relevant eDec threshold
-    dataToPlot = np.unique( np.vstack( (piViolations[:,[-3,-2]], BulkPiViolations[:,[-3,-2]]) ), axis=0 )
+    dataToPlot = np.unique( np.vstack( (piViolations, BulkPiViolations) ), axis=0 )
     #print "piViolations.size =", piViolations.size
     #print "BulkPiViolations.size =", BulkPiViolations.size
     #print "dataToPlot.size =", dataToPlot.size
