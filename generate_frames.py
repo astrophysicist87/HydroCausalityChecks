@@ -140,23 +140,25 @@ def generate_frame_wRegulation(frameNumber):
     
     # load piViolation and BulkPiViolation files to track where regulator is needed
     # (assumed to be one directory level up)
+    # NOTICE ALSO THAT THE FINAL COLUMN CONTAINS E DENSITY IN GEV/FM^3
     piViolations = np.loadtxt(inpath + '/../piViolation.dat')
     BulkPiViolations = np.loadtxt(inpath + '/../BulkpiViolation.dat')
     if piViolations.size > 0:
         piViolations = piViolations[np.where( np.isclose(piViolations[:,0], tau) \
                                 & (piViolations[:,1]>0) & (piViolations[:,1]<1)
-                                & (piViolations[:,-1]>=eDec) )]
+                                & (piViolations[:,-1]>=eDec*hbarc) )]
     if piViolations.size == 0:
         piViolations = np.array([[-1000.0,-1000.0],[-1000.0,1000.0],
                                  [1000.0,-1000.0], [1000.0,1000.0]])
     if BulkPiViolations.size > 0:
-        BulkPiViolations = BulkPiViolations[np.where( np.isclose(BulkPiViolations[:,0], tau) )]
+        BulkPiViolations = BulkPiViolations[np.where( np.isclose(BulkPiViolations[:,0], tau)
+                                                      & (BulkPiViolations[:,-1]>=eDec*hbarc) )]
     if BulkPiViolations.size == 0:
         BulkPiViolations = np.array([[-1000.0,-1000.0],[-1000.0,1000.0],\
                                      [1000.0,-1000.0], [1000.0,1000.0]])
                                      
     # plot only cells above relevant eDec threshold
-    dataToPlot = np.unique( np.vstack( (piViolations[:,[-2,-1]], BulkPiViolations[:,[-2,-1]]) ), axis=0 )
+    dataToPlot = np.unique( np.vstack( (piViolations[:,[-3,-2]], BulkPiViolations[:,[-3,-2]]) ), axis=0 )
     #print "piViolations.size =", piViolations.size
     #print "BulkPiViolations.size =", BulkPiViolations.size
     #print "dataToPlot.size =", dataToPlot.size
@@ -215,5 +217,5 @@ if __name__ == "__main__":
     # generate frames one by one
     for frameNumber in range(minFrameNumber, maxFrameNumber):
         print 'Generating frame =', frameNumber
-        #generate_frame(frameNumber)
+        generate_frame(frameNumber)
         generate_frame_wRegulation(frameNumber)
