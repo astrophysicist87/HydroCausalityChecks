@@ -10,16 +10,16 @@ hbarc = 0.19733     # GeV*fm
 
 # fix command-line arguments
 #path = "C:/Users/Christopher Plumberg/Desktop/Research/UIUC/HydroCausalityChecks/"
-scale = float(sys.argv[1])
+'''scale = float(sys.argv[1])
 minFrameNumber = int(sys.argv[2])
 maxFrameNumber = int(sys.argv[3])
 inpath = sys.argv[4]
-outpath = sys.argv[5]
-'''scale=10
+outpath = sys.argv[5]'''
+scale=10
 minFrameNumber=0
 maxFrameNumber=40
 inpath="C:/Users/Christopher Plumberg/Desktop/Research/UIUC/HydroCausalityChecks/frames"
-outpath="C:/Users/Christopher Plumberg/Desktop/Research/UIUC/HydroCausalityChecks/slides"'''
+outpath="C:/Users/Christopher Plumberg/Desktop/Research/UIUC/HydroCausalityChecks/slides"
 
 
 tau = 0.6   #initial tau (fm/c)
@@ -144,7 +144,8 @@ def generate_frame_wRegulation(frameNumber):
     BulkPiViolations = np.loadtxt(inpath + '/../BulkpiViolation.dat')
     if piViolations.size > 0:
         piViolations = piViolations[np.where( np.isclose(piViolations[:,0], tau) \
-                                & (piViolations[:,1]>0) & (piViolations[:,1]<1) )]
+                                & (piViolations[:,1]>0) & (piViolations[:,1]<1)
+                                & (piViolations[:,-1]>=eDec) )]
     if piViolations.size == 0:
         piViolations = np.array([[-1000.0,-1000.0],[-1000.0,1000.0],
                                  [1000.0,-1000.0], [1000.0,1000.0]])
@@ -162,12 +163,20 @@ def generate_frame_wRegulation(frameNumber):
     #print piViolations
     #print BulkPiViolations
     #print dataToPlot
-    if dataToPlot.size>0:
-        #print "dataToPlot.shape =", dataToPlot.shape
-        #print "frameDataCopy.shape =", frameDataCopy.shape
-        eAtCells = np.array([get_value(point, frameDataCopy[:,0], frameDataCopy[:,1], frameDataCopy[:,2])\
-                            for point in dataToPlot ])
-        dataToPlot = dataToPlot[ np.where( eAtCells >= eDec ) ]
+    #if dataToPlot.size>0:
+    #    print "dataToPlot.shape =", dataToPlot.shape
+    #    print "frameDataCopy.shape =", frameDataCopy.shape
+    #    #eAtCells = np.array([get_value(point, frameDataCopy[:,0], frameDataCopy[:,1], frameDataCopy[:,2])\
+    #    #                    for point in dataToPlot ])
+    #    eAtCells = np.array([ get_value(point, frameDataCopy[:,0], frameDataCopy[:,1], frameDataCopy[:,2])\
+    #                        for point in dataToPlot ])
+    #    print "eAtCells.shape =", eAtCells.shape                           
+    #    dataToPlot = np.c_[ dataToPlot, eAtCells ]
+    #    print "dataToPlot.shape =", dataToPlot.shape
+    #    #print eAtCells
+    #    #print np.where( eAtCells >= eDec )
+    #    #dataToPlot = dataToPlot[ np.where( eAtCells >= eDec ) ]
+    #    dataToPlot[ np.where( dataToPlot[:,2] >= eDec ) ][:,[0,1]]
 
     #print dataToPlot
 
@@ -176,6 +185,7 @@ def generate_frame_wRegulation(frameNumber):
         dataToPlot = np.array([[-1000.0,-1000.0],[-1000.0,1000.0],\
                                [1000.0,-1000.0], [1000.0,1000.0]])
 
+    print dataToPlot.shape
     H, xedges, yedges = np.histogram2d(dataToPlot[:,0], dataToPlot[:,1], \
                                     bins=(nxbins, nybins), \
                                     range=[[-scalex-0.5*dx,scalex+0.5*dx],
