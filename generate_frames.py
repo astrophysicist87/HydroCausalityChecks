@@ -10,16 +10,16 @@ hbarc = 0.19733     # GeV*fm
 
 # fix command-line arguments
 #path = "C:/Users/Christopher Plumberg/Desktop/Research/UIUC/HydroCausalityChecks/"
-'''scale = float(sys.argv[1])
+scale = float(sys.argv[1])
 minFrameNumber = int(sys.argv[2])
 maxFrameNumber = int(sys.argv[3])
 inpath = sys.argv[4]
-outpath = sys.argv[5]'''
-scale=10
+outpath = sys.argv[5]
+'''scale=10
 minFrameNumber=0
 maxFrameNumber=40
 inpath="C:/Users/Christopher Plumberg/Desktop/Research/UIUC/HydroCausalityChecks/frames"
-outpath="C:/Users/Christopher Plumberg/Desktop/Research/UIUC/HydroCausalityChecks/slides"
+outpath="C:/Users/Christopher Plumberg/Desktop/Research/UIUC/HydroCausalityChecks/slides"'''
 
 
 tau = 0.6   #initial tau (fm/c)
