@@ -31,7 +31,8 @@ nxbins = int(np.round(1.0+2.0*scalex/dx))
 nybins = int(np.round(1.0+2.0*scaley/dx))
 
 energyCutOff = True
-eDec = 0.05/hbarc  # impose cut off in fm^{-4}
+eDec = 0.3/hbarc  # impose cut off in fm^{-4}
+#eDec = 0.05/hbarc  # impose cut off in fm^{-4}
 
 #===============================================================================
 def colorFunction(entry):
@@ -192,4 +193,4 @@ if __name__ == "__main__":
     for frameNumber in range(minFrameNumber, maxFrameNumber):
         print 'Generating frame =', frameNumber
         generate_frame(frameNumber)
-        #generate_frame_wRegulation(frameNumber)
+        generate_frame_wRegulation(frameNumber)
