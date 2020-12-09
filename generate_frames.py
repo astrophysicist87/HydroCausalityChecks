@@ -3,7 +3,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
-from scipy import interpolate
+#from scipy import interpolate
 import sys
 
 hbarc = 0.19733     # GeV*fm
@@ -31,7 +31,7 @@ nxbins = int(np.round(1.0+2.0*scalex/dx))
 nybins = int(np.round(1.0+2.0*scaley/dx))
 
 energyCutOff = True
-eDec = 0.3/hbarc  # impose cut off in fm^{-4}
+eDec = 0.05/hbarc  # impose cut off in fm^{-4}
 
 #===============================================================================
 def colorFunction(entry):
@@ -104,13 +104,10 @@ def get_value(point, x, y, z):
 def generate_frame_wRegulation(frameNumber):
     # load data to plot
     global tau
-    #energyDensity = lambda x, y : 0.0
     frameData = np.loadtxt(inpath + '/frame%(frame)03d.dat' % {'frame': frameNumber})
     if frameData.size != 0:
         tau = frameData[0,2]
         frameData = np.unique(frameData, axis=0)
-        frameDataCopy = np.copy(frameData[:,[3,4,6]])
-        #energyDensity = interpolate.interp2d(frameData[:,3], frameData[:,4], frameData[:,6], kind='linear')
         if energyCutOff:
             frameData = frameData[np.where(frameData[:,6] >= eDec)]
             
@@ -119,7 +116,6 @@ def generate_frame_wRegulation(frameNumber):
                               [0,0,0,-1000.0,1000.0,0,0,0],\
                               [0,0,0,1000.0,-1000.0,0,0,0],\
                               [0,0,0,1000.0,1000.0,0,0,0]])
-        frameDataCopy = np.copy(frameData[:,[3,4,6]])
         
     dataToPlot = frameData[:,[3,4]]     # swap x and y to get correct orientation
 
@@ -159,28 +155,6 @@ def generate_frame_wRegulation(frameNumber):
                                      
     # plot only cells above relevant eDec threshold
     dataToPlot = np.unique( np.vstack( (piViolations, BulkPiViolations) ), axis=0 )
-    #print "piViolations.size =", piViolations.size
-    #print "BulkPiViolations.size =", BulkPiViolations.size
-    #print "dataToPlot.size =", dataToPlot.size
-    #print piViolations
-    #print BulkPiViolations
-    #print dataToPlot
-    #if dataToPlot.size>0:
-    #    print "dataToPlot.shape =", dataToPlot.shape
-    #    print "frameDataCopy.shape =", frameDataCopy.shape
-    #    #eAtCells = np.array([get_value(point, frameDataCopy[:,0], frameDataCopy[:,1], frameDataCopy[:,2])\
-    #    #                    for point in dataToPlot ])
-    #    eAtCells = np.array([ get_value(point, frameDataCopy[:,0], frameDataCopy[:,1], frameDataCopy[:,2])\
-    #                        for point in dataToPlot ])
-    #    print "eAtCells.shape =", eAtCells.shape                           
-    #    dataToPlot = np.c_[ dataToPlot, eAtCells ]
-    #    print "dataToPlot.shape =", dataToPlot.shape
-    #    #print eAtCells
-    #    #print np.where( eAtCells >= eDec )
-    #    #dataToPlot = dataToPlot[ np.where( eAtCells >= eDec ) ]
-    #    dataToPlot[ np.where( dataToPlot[:,2] >= eDec ) ][:,[0,1]]
-
-    #print dataToPlot
 
     # to avoid throwing exceptions...
     if dataToPlot.size==0:
@@ -218,4 +192,4 @@ if __name__ == "__main__":
     for frameNumber in range(minFrameNumber, maxFrameNumber):
         print 'Generating frame =', frameNumber
         generate_frame(frameNumber)
-        generate_frame_wRegulation(frameNumber)
+        #generate_frame_wRegulation(frameNumber)
