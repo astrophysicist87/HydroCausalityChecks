@@ -193,4 +193,4 @@ if __name__ == "__main__":
     for frameNumber in range(minFrameNumber, maxFrameNumber):
         print 'Generating frame =', frameNumber
         generate_frame(frameNumber)
-        generate_frame_wRegulation(frameNumber)
+        #generate_frame_wRegulation(frameNumber)
