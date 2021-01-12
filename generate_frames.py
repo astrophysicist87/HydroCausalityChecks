@@ -47,7 +47,7 @@ def colorFunction(entry):
 def generate_frame(frameNumber):
     # load data to plot
     global tau
-    frameData = np.loadtxt(inpath + '/frame%(frame)03d.dat' % {'frame': frameNumber})
+    frameData = np.loadtxt(inpath + '/frame%(frame)04d.dat' % {'frame': frameNumber})
     if frameData.size != 0:
         tau = frameData[0,2]
         frameData = np.unique(frameData, axis=0)
@@ -87,7 +87,7 @@ def generate_frame(frameNumber):
     ax.set_ylabel(r'$y$ (fm)', fontsize=16)
     
     #plt.show()
-    outfilename = outpath + '/slide%(frame)03d.png' % {'frame': frameNumber}
+    outfilename = outpath + '/slide%(frame)04d.png' % {'frame': frameNumber}
     print 'Saving to', outfilename
     fig.savefig(outfilename, bbox_inches='tight')
     plt.close(fig)
@@ -105,7 +105,7 @@ def get_value(point, x, y, z):
 def generate_frame_wRegulation(frameNumber):
     # load data to plot
     global tau
-    frameData = np.loadtxt(inpath + '/frame%(frame)03d.dat' % {'frame': frameNumber})
+    frameData = np.loadtxt(inpath + '/frame%(frame)04d.dat' % {'frame': frameNumber})
     if frameData.size != 0:
         tau = frameData[0,2]
         frameData = np.unique(frameData, axis=0)
@@ -182,7 +182,7 @@ def generate_frame_wRegulation(frameNumber):
         ax.set_ylabel(r'$y$ (fm)', fontsize=16)
     
     #plt.show()
-    outfilename = outpath + '/slide_wReg%(frame)03d.png' % {'frame': frameNumber}
+    outfilename = outpath + '/slide_wReg%(frame)04d.png' % {'frame': frameNumber}
     print 'Saving to', outfilename
     fig.savefig(outfilename, bbox_inches='tight')
     plt.close(fig)
