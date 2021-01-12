@@ -40,6 +40,9 @@ bool get_sorted_eigenvalues_of_pi_mu_nu(
 
 int main(int argc, char *argv[])
 {
+	// turn off errors for now...
+	gsl_set_error_handler_off();
+
 	// check input first
 	if (argc < 2)
 	{
