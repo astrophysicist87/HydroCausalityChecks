@@ -317,6 +317,11 @@ double Diss::Make_uWSource(double tau, Cell_small *grid_pt, Cell_small *grid_pt_
 
         // full term is
         Wsigma_term = -term1_Wsigma - term2_Wsigma;
+
+std::cout << "*** " << transport_coefficient3* << "   "
+          << transport_coefficient3*Wsigma << "   "
+          << -term1_Wsigma << "   "
+          << -term2_Wsigma << "   *** ";
     }
 
     //////////////////////////////////////////////////////////////////////////
