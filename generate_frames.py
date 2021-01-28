@@ -191,7 +191,7 @@ def generate_frame_wRegulation(frameNumber):
 if __name__ == "__main__":
     # generate frames one by one
     for frameNumber in range(minFrameNumber, maxFrameNumber):
-        print 'Generating frame =', frameNumber, 'of total', \
-               maxFrameNumber - minFrameNumber + 1, 'frames'
+        print 'Generating frame =', frameNumber, ';', \
+               maxFrameNumber - frameNumber, 'frames remaining'
         generate_frame(frameNumber)
         generate_frame_wRegulation(frameNumber)
