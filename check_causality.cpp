@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
 							/*pi00, pi01, pi02, pi11, pi12, pi22, pi33,*/
 							Lambda_0, Lambda_1, Lambda_2, Lambda_3 );
 
-		const double enthalpy_plus_Pi = e+P+Pi;
+		const double enthalpy_plus_Pi = e+p+Pi;
 
 		bool assumptionsSatisfied
 				= (tau_Pi>0) && (tau_pi>0) && (eta>0) && (zeta>0)
@@ -127,7 +127,7 @@ int main(int argc, char *argv[])
 									/*pi00, pi01, pi02, pi11, pi12, pi22, pi33,*/
 									Lambda_0, Lambda_1, Lambda_2, Lambda_3 );
 
-				const double enthalpy_plus_Pi = e+P+Pi;
+				const double enthalpy_plus_Pi = e+p+Pi;
 
 				bool assumptionsSatisfied
 						= (tau_Pi>0) && (tau_pi>0) && (eta>0) && (zeta>0)

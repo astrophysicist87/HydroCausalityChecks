@@ -45,7 +45,7 @@ $(TARGET):
 
 .PHONY:		all distclean distclean install
 
-all:		mkobjdir $(TARGET)
+all:		$(TARGET)
 
 help:
 		@grep '^##' GNUmakefile
