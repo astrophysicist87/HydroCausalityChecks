@@ -34,8 +34,8 @@ double delta_PiPi, lambda_Pipi, delta_pipi, lambda_piPi,
 double Lambda_0, Lambda_1, Lambda_2, Lambda_3;
 
 bool get_sorted_eigenvalues_of_pi_mu_nu(
-		const double pi00, const double pi01, const double pi02, const double pi11,
-		const double pi12, const double pi22, const double pi33,
+		/*const double pi00, const double pi01, const double pi02, const double pi11,
+		const double pi12, const double pi22, const double pi33,*/
 		double & Lambda_0, double & Lambda_1, double & Lambda_2, double & Lambda_3 );
 
 int main(int argc, char *argv[])
@@ -73,8 +73,19 @@ int main(int argc, char *argv[])
 
 		Lambda_0 = 0.0; Lambda_1 = 0.0; Lambda_2 = 0.0; Lambda_3 = 0.0;
 		bool eigenSuccess = get_sorted_eigenvalues_of_pi_mu_nu(
-							pi00, pi01, pi02, pi11, pi12, pi22, pi33,
+							/*pi00, pi01, pi02, pi11, pi12, pi22, pi33,*/
 							Lambda_0, Lambda_1, Lambda_2, Lambda_3 );
+
+		const double enthalpy_plus_Pi = e+P+Pi;
+
+		bool assumptionsSatisfied
+				= (tau_Pi>0) && (tau_pi>0) && (eta>0) && (zeta>0)
+					&& (tau_pipi>0) && (delta_PiPi>0) && (lambda_Pipi>0)
+					&& (delta_pipi>0) && (lambda_piPi>0) && (cs2>0)
+					&& (e>0) && (p>=0) && (enthalpy_plus_Pi>0)
+					&& (enthalpy_plus_Pi+Lambda_1>0)
+					&& (enthalpy_plus_Pi+Lambda_2>0)
+					&& (enthalpy_plus_Pi+Lambda_3>0);
 
 		vector<bool> necessary_conditions(6, false);
 		vector<bool> sufficient_conditions(8, false);
@@ -86,7 +97,8 @@ int main(int argc, char *argv[])
 		cout << "   ";
 		for ( const auto & sc : sufficient_conditions ) cout << static_cast<int>( sc );
 		cout << "   " << tau << "   " << x << "   " << y  << "   "
-				<< T << "   " << e << "   " << static_cast<int>(eigenSuccess) << endl;
+				<< T << "   " << e << "   "
+				<< static_cast<int>(eigenSuccess && assumptionsSatisfied) << endl;
 	}
 	else
 	{
@@ -112,8 +124,19 @@ int main(int argc, char *argv[])
 	
 				Lambda_0 = 0.0; Lambda_1 = 0.0; Lambda_2 = 0.0; Lambda_3 = 0.0;
 				bool eigenSuccess = get_sorted_eigenvalues_of_pi_mu_nu(
-									pi00, pi01, pi02, pi11, pi12, pi22, pi33,
+									/*pi00, pi01, pi02, pi11, pi12, pi22, pi33,*/
 									Lambda_0, Lambda_1, Lambda_2, Lambda_3 );
+
+				const double enthalpy_plus_Pi = e+P+Pi;
+
+				bool assumptionsSatisfied
+						= (tau_Pi>0) && (tau_pi>0) && (eta>0) && (zeta>0)
+							&& (tau_pipi>0) && (delta_PiPi>0) && (lambda_Pipi>0)
+							&& (delta_pipi>0) && (lambda_piPi>0) && (cs2>0)
+							&& (e>0) && (p>=0) && (enthalpy_plus_Pi>0)
+							&& (enthalpy_plus_Pi+Lambda_1>0)
+							&& (enthalpy_plus_Pi+Lambda_2>0)
+							&& (enthalpy_plus_Pi+Lambda_3>0);
 
 				vector<bool> necessary_conditions(6, false);
 				vector<bool> sufficient_conditions(8, false);
@@ -131,7 +154,8 @@ int main(int argc, char *argv[])
 				cout << "   ";
 				for ( const auto & sc : sufficient_conditions ) cout << static_cast<int>( sc );
 				cout << "   " << tau << "   " << x << "   " << y  << "   "
-						<< T << "   " << e << "   " << static_cast<int>(eigenSuccess) << endl;
+						<< T << "   " << e << "   "
+						<< static_cast<int>(eigenSuccess && assumptionsSatisfied) << endl;
 
 				//if (1) exit(8);
 			}
@@ -144,8 +168,8 @@ int main(int argc, char *argv[])
 }
 
 bool get_sorted_eigenvalues_of_pi_mu_nu(
-		const double pi00, const double pi01, const double pi02, const double pi11,
-		const double pi12, const double pi22, const double pi33,
+		/*const double pi00, const double pi01, const double pi02, const double pi11,
+		const double pi12, const double pi22, const double pi33,*/
 		double & Lambda_0, double & Lambda_1, double & Lambda_2, double & Lambda_3 )
 {
 	double m[16];
@@ -201,6 +225,7 @@ bool get_sorted_eigenvalues_of_pi_mu_nu(
 			<< tmp0 << "   " << tmp1 << "   " << tmp2 << "   " << tmp3 << "   ";
 		cerr << pi00 << "   " << pi01 << "   " << pi02 << "   "
 			<< pi11 << "   " << pi12 << "   " << pi22 << "   " << pi33 << endl;
+		success++;
 	}
 	//else
 	//	cerr << "Found zero eigenvalue with ratio = " << ratio << endl;
@@ -208,7 +233,8 @@ bool get_sorted_eigenvalues_of_pi_mu_nu(
 	gsl_vector_complex_free(eval);
 	gsl_matrix_complex_free(evec);
 
-	return ( ( success == 0 ) and ( ratio <= epsilon ) );
+	//return ( ( success == 0 ) and ( ratio <= epsilon ) );
+	return ( success == 0 );
 }
 
 
