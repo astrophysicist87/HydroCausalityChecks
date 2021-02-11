@@ -233,7 +233,7 @@ bool get_sorted_eigenvalues_of_pi_mu_nu(
 	Lambda_2 = ( abs(tmp1) > abs(tmp2) ) ? tmp1 : tmp2;
 	Lambda_3 = tmp3;
 
-	if ( ratio > epsilon )
+	if ( ratio > 0.01 )
 	{
 		cerr /*<< "ERROR: no zero eigenvalues found!  " << endl*/
 			<< "ERROR: " << ratio << " > " << epsilon << ": " /*<< endl*/

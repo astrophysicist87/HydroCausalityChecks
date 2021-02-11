@@ -22,9 +22,12 @@ inpath="C:/Users/Christopher Plumberg/Desktop/Research/UIUC/HydroCausalityChecks
 outpath="C:/Users/Christopher Plumberg/Desktop/Research/UIUC/HydroCausalityChecks/slides"'''
 
 
-tau = 0.6   #initial tau (fm/c)
-dx = 0.1
-dy = 0.1
+tau = 0.6   #initial tau (fm/c), overwritten by value in file
+#dx = 0.1
+#dy = 0.1
+dxy = float(sys.argv[7])
+dx = dxy
+dy = dxy
 scalex = scale
 scaley = scale
 nxbins = int(np.round(1.0+2.0*scalex/dx))
@@ -34,17 +37,19 @@ energyCutOff = True
 #eDec = 0.3/hbarc  # impose cut off in fm^{-4}
 eDec = float(sys.argv[6])/hbarc
 
-colorsToUse = ['black','red','purple','blue', 'green']
+colorsToUse = ['black','red','purple','blue','green','orange']
 
 #===============================================================================
 def colorFunction(entry):
-    if entry[-1]==0 or entry[-2]==0:
+    if entry[-2]==0:           # if basic hydro assumptions failed
+        return 5
+    elif entry[-1]==0:         # else if diagonalization of pimunu failed
         return 4
-    elif entry[1]==11111111:
+    elif entry[1]==11111111:   # else if sufficient conditions are satisifed
         return 3
-    elif entry[0]==111111:
+    elif entry[0]==111111:     # else if necessary conditions are satisfied
         return 2
-    else:
+    else:                      # else if necessary conditions are violated
         return 1
 
 #===============================================================================
