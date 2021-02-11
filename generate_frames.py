@@ -34,9 +34,13 @@ energyCutOff = True
 #eDec = 0.3/hbarc  # impose cut off in fm^{-4}
 eDec = float(sys.argv[6])/hbarc
 
+colorsToUse = ['black','red','purple','blue', 'green']
+
 #===============================================================================
 def colorFunction(entry):
-    if entry[1]==11111111:
+    if entry[-1]==0 or entry[-2]==0:
+        return 4
+    elif entry[1]==11111111:
         return 3
     elif entry[0]==111111:
         return 2
@@ -55,7 +59,7 @@ def generate_frame(frameNumber):
             frameData = frameData[np.where(frameData[:,6] >= eDec)]
             
     if frameData.size == 0:
-        frameData = np.array([[0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0]])
+        frameData = np.array([[0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0]])
         
     dataToPlot = frameData[:,[3,4]]     # swap x and y to get correct orientation
 
@@ -76,8 +80,7 @@ def generate_frame(frameNumber):
     H = H.T
     ax.imshow(H.astype(int), interpolation='nearest', origin='low', \
                   extent=[-scalex-0.5*dx,scalex+0.5*dx,-scaley-0.5*dy,scaley+0.5*dy], \
-                  cmap=ListedColormap(['black','red','purple','blue']),
-                  vmin=0, vmax=3)
+                  cmap=ListedColormap(colorsToUse), vmin=0, vmax=(len(colorsToUse)-1))
                   
     plt.text(0.075, 0.925, r'$\tau = %(t)5.2f$ fm$/c$'%{'t': tau}, \
             {'color': 'white', 'fontsize': 12}, transform=ax.transAxes,
@@ -88,7 +91,7 @@ def generate_frame(frameNumber):
     
     #plt.show()
     outfilename = outpath + '/slide%(frame)04d.png' % {'frame': frameNumber}
-    print 'Saving to', outfilename
+    print('Saving to', outfilename)
     fig.savefig(outfilename, bbox_inches='tight')
     plt.close(fig)
 
@@ -113,10 +116,10 @@ def generate_frame_wRegulation(frameNumber):
             frameData = frameData[np.where(frameData[:,6] >= eDec)]
             
     if frameData.size == 0:
-        frameData = np.array([[0,0,0,-1000.0,-1000.0,0,0,0],\
-                              [0,0,0,-1000.0,1000.0,0,0,0],\
-                              [0,0,0,1000.0,-1000.0,0,0,0],\
-                              [0,0,0,1000.0,1000.0,0,0,0]])
+        frameData = np.array([[0,0,0,-1000.0,-1000.0,0,0,0,0],\
+                              [0,0,0,-1000.0,1000.0,0,0,0,0],\
+                              [0,0,0,1000.0,-1000.0,0,0,0,0],\
+                              [0,0,0,1000.0,1000.0,0,0,0,0]])
         
     dataToPlot = frameData[:,[3,4]]     # swap x and y to get correct orientation
 
@@ -132,8 +135,7 @@ def generate_frame_wRegulation(frameNumber):
     H = H.T
     axs[0].imshow(H.astype(int), interpolation='nearest', origin='low', \
                   extent=[-scalex-0.5*dx,scalex+0.5*dx,-scaley-0.5*dy,scaley+0.5*dy], \
-                  cmap=ListedColormap(['black','red','purple','blue']),
-                  vmin=0, vmax=3)
+                  cmap=ListedColormap(colorsToUse), vmin=0, vmax=(len(colorsToUse)-1))
     
     # load piViolation and BulkPiViolation files to track where regulator is needed
     # (assumed to be one directory level up)
@@ -183,7 +185,7 @@ def generate_frame_wRegulation(frameNumber):
     
     #plt.show()
     outfilename = outpath + '/slide_wReg%(frame)04d.png' % {'frame': frameNumber}
-    print 'Saving to', outfilename
+    print('Saving to', outfilename)
     fig.savefig(outfilename, bbox_inches='tight')
     plt.close(fig)
 
@@ -191,7 +193,7 @@ def generate_frame_wRegulation(frameNumber):
 if __name__ == "__main__":
     # generate frames one by one
     for frameNumber in range(minFrameNumber, maxFrameNumber):
-        print 'Generating frame =', frameNumber, ';', \
-               maxFrameNumber - frameNumber, 'frames remaining'
+        print('Generating frame =', frameNumber, ';', \
+               maxFrameNumber - frameNumber, 'frames remaining')
         generate_frame(frameNumber)
         generate_frame_wRegulation(frameNumber)

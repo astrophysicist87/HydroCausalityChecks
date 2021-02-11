@@ -96,9 +96,10 @@ int main(int argc, char *argv[])
 		for ( const auto & nc : necessary_conditions ) cout << static_cast<int>( nc );
 		cout << "   ";
 		for ( const auto & sc : sufficient_conditions ) cout << static_cast<int>( sc );
-		cout << "   " << tau << "   " << x << "   " << y  << "   "
+		cout << "   " << tau << "   " << x << "   " << y << "   "
 				<< T << "   " << e << "   "
-				<< static_cast<int>(eigenSuccess && assumptionsSatisfied) << endl;
+				<< static_cast<int>(assumptionsSatisfied) << "   "
+				<< static_cast<int>(eigenSuccess) << endl;
 	}
 	else
 	{
@@ -153,9 +154,10 @@ int main(int argc, char *argv[])
 				for ( const auto & nc : necessary_conditions ) cout << static_cast<int>( nc );
 				cout << "   ";
 				for ( const auto & sc : sufficient_conditions ) cout << static_cast<int>( sc );
-				cout << "   " << tau << "   " << x << "   " << y  << "   "
+				cout << "   " << tau << "   " << x << "   " << y << "   "
 						<< T << "   " << e << "   "
-						<< static_cast<int>(eigenSuccess && assumptionsSatisfied) << endl;
+						<< static_cast<int>(assumptionsSatisfied) << "   "
+						<< static_cast<int>(eigenSuccess) << endl;
 
 				//if (1) exit(8);
 			}
@@ -189,7 +191,7 @@ bool get_sorted_eigenvalues_of_pi_mu_nu(
 	// sort by magnitude first
 	gsl_eigen_nonsymmv_sort(eval, evec, GSL_EIGEN_SORT_ABS_ASC);
 	Lambda_0 = GSL_REAL(gsl_vector_complex_get(eval, 0));
-	double ratio = abs(Lambda_0 / (GSL_REAL(gsl_vector_complex_get(eval, 3))+epsilon));
+	double ratio = abs(Lambda_0 / (abs(GSL_REAL(gsl_vector_complex_get(eval, 3)))+epsilon));
 
 	/*cout << "Check #1 here: "
 		<< GSL_REAL(gsl_vector_complex_get(eval, 0)) << "   "
@@ -220,8 +222,8 @@ bool get_sorted_eigenvalues_of_pi_mu_nu(
 
 	if ( ratio > epsilon )
 	{
-		cerr << "ERROR: no zero eigenvalues found!  " << endl
-			<< ratio << " > " << epsilon << ":" << endl
+		cerr /*<< "ERROR: no zero eigenvalues found!  " << endl*/
+			<< ratio << " > " << epsilon << ": " /*<< endl*/
 			<< tmp0 << "   " << tmp1 << "   " << tmp2 << "   " << tmp3 << "   ";
 		cerr << pi00 << "   " << pi01 << "   " << pi02 << "   "
 			<< pi11 << "   " << pi12 << "   " << pi22 << "   " << pi33 << endl;
