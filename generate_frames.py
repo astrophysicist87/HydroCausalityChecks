@@ -164,7 +164,7 @@ def generate_frame_wRegulation(frameNumber):
         dataToPlot = np.array([[-1000.0,-1000.0],[-1000.0,1000.0],\
                                [1000.0,-1000.0], [1000.0,1000.0]])
 
-    print dataToPlot.shape
+    print(dataToPlot.shape)
     H, xedges, yedges = np.histogram2d(dataToPlot[:,0], dataToPlot[:,1], \
                                     bins=(nxbins, nybins), \
                                     range=[[-scalex-0.5*dx,scalex+0.5*dx],
