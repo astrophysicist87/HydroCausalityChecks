@@ -13,6 +13,7 @@
 #include <string>
 
 #include <gsl/gsl_math.h>
+#include <gsl/gsl_complex.h>
 #include <gsl/gsl_eigen.h>
 
 #include "necessary_conditions.h"
@@ -190,6 +191,18 @@ bool get_sorted_eigenvalues_of_pi_mu_nu(
 
 	// sort by magnitude first
 	gsl_eigen_nonsymmv_sort(eval, evec, GSL_EIGEN_SORT_ABS_ASC);
+
+	for ( int elem = 0; elem < 4; elem++ )
+		if ( abs(GSL_IMAG(gsl_vector_complex_get(eval, elem)))
+				> 0.01*abs(GSL_REAL(gsl_vector_complex_get(eval, elem))) )
+		{
+			cerr << "ERROR(complex): " << -1e100 << " < " << epsilon << ": "
+				<< 0.0 << "   " << 0.0 << "   " << 0.0 << "   " << 0.0 << "   ";
+			cerr << pi00 << "   " << pi01 << "   " << pi02 << "   "
+				<< pi11 << "   " << pi12 << "   " << pi22 << "   " << pi33 << endl;
+			return false;
+		}
+
 	Lambda_0 = GSL_REAL(gsl_vector_complex_get(eval, 0));
 	double ratio = abs(Lambda_0 / (abs(GSL_REAL(gsl_vector_complex_get(eval, 3)))+epsilon));
 
@@ -223,7 +236,7 @@ bool get_sorted_eigenvalues_of_pi_mu_nu(
 	if ( ratio > epsilon )
 	{
 		cerr /*<< "ERROR: no zero eigenvalues found!  " << endl*/
-			<< ratio << " > " << epsilon << ": " /*<< endl*/
+			<< "ERROR: " << ratio << " > " << epsilon << ": " /*<< endl*/
 			<< tmp0 << "   " << tmp1 << "   " << tmp2 << "   " << tmp3 << "   ";
 		cerr << pi00 << "   " << pi01 << "   " << pi02 << "   "
 			<< pi11 << "   " << pi12 << "   " << pi22 << "   " << pi33 << endl;
