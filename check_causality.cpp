@@ -86,7 +86,9 @@ int main(int argc, char *argv[])
 					&& (e>0) && (p>=0) && (enthalpy_plus_Pi>0)
 					&& (enthalpy_plus_Pi+Lambda_1>0)
 					&& (enthalpy_plus_Pi+Lambda_2>0)
-					&& (enthalpy_plus_Pi+Lambda_3>0);
+					&& (enthalpy_plus_Pi+Lambda_3>0)
+					&& (Lambda_1<=0) && (Lambda_3>=0)
+					&& (Lambda_1<=Lambda_2) && (Lambda_2<=Lambda_3);
 
 		vector<bool> necessary_conditions(6, false);
 		vector<bool> sufficient_conditions(8, false);
@@ -138,7 +140,9 @@ int main(int argc, char *argv[])
 							&& (e>0) && (p>=0) && (enthalpy_plus_Pi>0)
 							&& (enthalpy_plus_Pi+Lambda_1>0)
 							&& (enthalpy_plus_Pi+Lambda_2>0)
-							&& (enthalpy_plus_Pi+Lambda_3>0);
+							&& (enthalpy_plus_Pi+Lambda_3>0)
+							&& (Lambda_1<=0) && (Lambda_3>=0)
+							&& (Lambda_1<=Lambda_2) && (Lambda_2<=Lambda_3);
 
 				vector<bool> necessary_conditions(6, false);
 				vector<bool> sufficient_conditions(8, false);
