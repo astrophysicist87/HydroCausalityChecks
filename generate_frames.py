@@ -201,4 +201,4 @@ if __name__ == "__main__":
         print('Generating frame =', frameNumber, ';', \
                maxFrameNumber - frameNumber, 'frames remaining')
         generate_frame(frameNumber)
-        generate_frame_wRegulation(frameNumber)
+        #generate_frame_wRegulation(frameNumber)
