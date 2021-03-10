@@ -4,7 +4,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 #from scipy import interpolate
-import sys
+import os, sys
 
 hbarc = 0.19733     # GeV*fm
 
@@ -154,8 +154,16 @@ def generate_frame_wRegulation(frameNumber):
     # load piViolation and BulkPiViolation files to track where regulator is needed
     # (assumed to be one directory level up)
     # NOTICE ALSO THAT THE FINAL COLUMN CONTAINS E DENSITY IN GEV/FM^3
-    piViolations = np.loadtxt(inpath + '/../piViolation.dat')
-    BulkPiViolations = np.loadtxt(inpath + '/../BulkpiViolation.dat')
+    if os.path.isfile(inpath + '/../piViolation.dat')
+        piViolations = np.loadtxt(inpath + '/../piViolation.dat')
+    else:
+        piViolations = np.array([])
+        
+    if os.path.isfile(inpath + '/../BulkpiViolation.dat')
+        BulkPiViolations = np.loadtxt(inpath + '/../BulkpiViolation.dat')
+    else:
+        BulkPiViolations = np.array([])
+    
     if piViolations.size > 0:
         piViolations = piViolations[np.where( np.isclose(piViolations[:,0], tau) \
                                 & (piViolations[:,1]>0) & (piViolations[:,1]<1)
