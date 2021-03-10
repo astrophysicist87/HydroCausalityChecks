@@ -204,6 +204,7 @@ def generate_frame_wRegulation(frameNumber):
     plt.close(fig)
     
     
+#===============================================================================
 def generate_fraction_time_dependence( fractionTimeDependence ):
     fig, axs = plt.subplots( nrows=1, ncols=1, figsize=(10,10) )
 
