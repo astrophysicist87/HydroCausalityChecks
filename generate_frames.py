@@ -45,7 +45,7 @@ def colorFunction(entry):
         return 5
     elif entry[-1]==0:         # else if diagonalization of pimunu failed
         return 4
-    elif entry[1]==11111111:   # else if sufficient conditions are satisifed
+    elif entry[1]==11111111:   # else if sufficient conditions are satisfied
         return 3
     elif entry[0]==111111:     # else if necessary conditions are satisfied
         return 2
@@ -99,6 +99,15 @@ def generate_frame(frameNumber):
     print('Saving to', outfilename)
     fig.savefig(outfilename, bbox_inches='tight')
     plt.close(fig)
+    
+    orangeFraction = len(vals[np.where(vals==5)])/len(vals)
+    greenFraction = len(vals[np.where(vals==4)])/len(vals)
+    blueFraction = len(vals[np.where(vals==3)])/len(vals)
+    purpleFraction = len(vals[np.where(vals==2)])/len(vals)
+    redFraction = len(vals[np.where(vals==1)])/len(vals)
+    
+    return np.array([tau, orangeFraction, greenFraction, blueFraction, \
+                     purpleFraction, redFraction])
 
 #===============================================================================
 #def identify_violations(piViolations, BulkPiViolations):
@@ -193,12 +202,40 @@ def generate_frame_wRegulation(frameNumber):
     print('Saving to', outfilename)
     fig.savefig(outfilename, bbox_inches='tight')
     plt.close(fig)
+    
+    
+def generate_fraction_time_dependence( fractionTimeDependence ):
+    fig, axs = plt.subplots( nrows=1, ncols=1, figsize=(10,10) )
+
+    axs.plot( fractionTimeDependence[:,0], fractionTimeDependence[:,1], color='orange', lw=2 )
+    axs.plot( fractionTimeDependence[:,0], fractionTimeDependence[:,2], color='green', lw=2 )
+    axs.plot( fractionTimeDependence[:,0], fractionTimeDependence[:,3], color='blue', lw=2 )
+    axs.plot( fractionTimeDependence[:,0], fractionTimeDependence[:,4], color='purple', lw=2 )
+    axs.plot( fractionTimeDependence[:,0], fractionTimeDependence[:,5], color='red', lw=2 )
+            
+    axs.set_xlabel(r'$\tau$ (fm/$c$)', fontsize=16)
+    axs.set_ylabel(r'Fraction', fontsize=16)
+    axs.legend( loc='best' )
+
+    #plt.show()
+    outfilename = outpath + '/cell_fractions_tau_dependence.png'
+    print('Saving to', outfilename)
+    fig.savefig(outfilename, bbox_inches='tight')
+    plt.close(fig)
 
 #===============================================================================
 if __name__ == "__main__":
     # generate frames one by one
-    for frameNumber in range(minFrameNumber, maxFrameNumber):
+    fractionTimeDependence = None
+    for loop, frameNumber in enumerate(range(minFrameNumber, maxFrameNumber)):
         print('Generating frame =', frameNumber, ';', \
                maxFrameNumber - frameNumber, 'frames remaining')
-        generate_frame(frameNumber)
-        #generate_frame_wRegulation(frameNumber)
+        fractions = generate_frame(frameNumber)
+        if loop==0:
+            fractionTimeDependence = fractions
+        else:
+            fractionTimeDependence = np.c_[ fractionTimeDependence, fractions ]
+        generate_frame_wRegulation(frameNumber)
+
+    fractionTimeDependence = fractionTimeDependence.T
+    generate_fraction_time_dependence( fractionTimeDependence )
