@@ -247,4 +247,8 @@ if __name__ == "__main__":
         generate_frame_wRegulation(frameNumber)
 
     fractionTimeDependence = fractionTimeDependence.T
+    
+    # export to file in case plotting fails
+    np.savetxt( outpath + '/cell_fractions_tau_dependence.dat', fractionTimeDependence )
+    
     generate_fraction_time_dependence( fractionTimeDependence )
