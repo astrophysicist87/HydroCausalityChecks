@@ -28,7 +28,10 @@ eDec=$4
 		mv $file $file".dat"
 	done
 )
+
+	# Get total number of frames
 	i=`\ls -1 $fileDirec/frames/frame* | wc -l`
+
 	# This generates frames for the animations
 	echo 'Executing python generate_frames.py '$2' 0 '$i' '$fileDirec'/frames '$fileDirec'/slides' $4 $5
 	python generate_frames.py $2 0 $i $fileDirec/frames $fileDirec/slides $4 $5

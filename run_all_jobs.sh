@@ -11,6 +11,7 @@
 for file in ../MUSIC/results_PbPb*Kompost/evolution_full.dat
 do
         path=`readlink -e $file`
-        sbatch --export=ALL,file_to_check=`echo $path`,inGridScale=20.48,inGridSize=$[512**2],inEDecoupling=0.3,inDXY=0.08 run_all.sbatch
+        #sbatch --export=ALL,file_to_check=`echo $path`,inGridScale=20.48,inGridSize=$[512**2],inEDecoupling=0.3,inDXY=0.08 run_all.sbatch
+        sbatch --export=ALL,file_to_check=`echo $path`,inGridScale=20.48,inGridSize=$[512**2],inEDecoupling=0.3,inDXY=0.08 run_frame_generation_only.sbatch
 done
 
