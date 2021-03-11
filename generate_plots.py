@@ -89,7 +89,7 @@ def generate_frames(frameNumbers):
                 
         axs[i].set_xlabel(r'$x$ (fm)', fontsize=16)
         if i==0:
-            ax.set_ylabel(r'$y$ (fm)', fontsize=16)
+            axs[i].set_ylabel(r'$y$ (fm)', fontsize=16)
         
     #plt.show()
     outfilename = outpath + '/frame_sequence.png'
