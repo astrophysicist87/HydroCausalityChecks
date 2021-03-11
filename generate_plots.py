@@ -84,7 +84,7 @@ def generate_frames(frameNumbers):
                       cmap=ListedColormap(colorsToUse), vmin=0, vmax=(len(colorsToUse)-1))
                       
         plt.text(0.075, 0.925, r'$\tau = %(t)5.2f$ fm$/c$'%{'t': tau}, \
-                {'color': 'white', 'fontsize': 12}, transform=ax.transAxes,
+                {'color': 'white', 'fontsize': 12}, transform=axs[i].transAxes,
                 horizontalalignment='left', verticalalignment='top')
                 
         axs[i].set_xlabel(r'$x$ (fm)', fontsize=16)

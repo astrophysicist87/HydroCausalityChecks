@@ -154,12 +154,12 @@ def generate_frame_wRegulation(frameNumber):
     # load piViolation and BulkPiViolation files to track where regulator is needed
     # (assumed to be one directory level up)
     # NOTICE ALSO THAT THE FINAL COLUMN CONTAINS E DENSITY IN GEV/FM^3
-    if os.path.isfile(inpath + '/../piViolation.dat')
+    if os.path.isfile(inpath + '/../piViolation.dat'):
         piViolations = np.loadtxt(inpath + '/../piViolation.dat')
     else:
         piViolations = np.array([])
         
-    if os.path.isfile(inpath + '/../BulkpiViolation.dat')
+    if os.path.isfile(inpath + '/../BulkpiViolation.dat'):
         BulkPiViolations = np.loadtxt(inpath + '/../BulkpiViolation.dat')
     else:
         BulkPiViolations = np.array([])
