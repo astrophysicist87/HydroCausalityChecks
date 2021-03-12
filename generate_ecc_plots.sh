@@ -21,6 +21,7 @@ then
 
 	# assuming same number of lines for each tau...
 	split --lines=$2 -d --suffix-length=4 newFileNoHeader.dat ecc_frames/frame
+	echo 'Length:' `wc -l newFileNoHeader.dat`
 	rm newFileNoHeader.dat
 
 	nFiles=`\ls -1 ecc_frames/frame* | wc -l`
