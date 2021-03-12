@@ -9,7 +9,7 @@ fileName=`basename $filePath`
 
 eDec=$3
 
-regenerateFrames=false
+regenerateFrames=true
 if [ "$regenerateFrames" = true ]
 then
 (
@@ -17,8 +17,12 @@ then
 	rm -rf ecc_frames
 	mkdir ecc_frames
 
+	awk 'NR>1' $filename > newFileNoHeader.dat
+
 	# assuming same number of lines for each tau...
-	split --lines=$2 -d --suffix-length=4 $fileName ecc_frames/frame
+	split --lines=$2 -d --suffix-length=4 newFileNoHeader.dat ecc_frames/frame
+	rm newFileNoHeader.dat
+
 	nFiles=`\ls -1 ecc_frames/frame* | wc -l`
 	for i in $(seq -f "%04g" $nFiles $[nFiles+10])
 	do
