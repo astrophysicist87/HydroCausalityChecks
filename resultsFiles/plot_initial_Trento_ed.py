@@ -29,8 +29,8 @@ for filename in filenames:
 
     plt.colorbar(im, label=r'e [GeV/fm$^3$]')
 
-    #plt.show()
-    outfilename = path + 'initial_Duke.pdf'
-    print('Saving to', outfilename)
-    fig.savefig(outfilename, bbox_inches='tight')
-    plt.close(fig)
+    plt.show()
+    #outfilename = path + 'initial_Duke.pdf'
+    #print('Saving to', outfilename)
+    #fig.savefig(outfilename, bbox_inches='tight')
+    #plt.close(fig)

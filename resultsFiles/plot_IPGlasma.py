@@ -28,9 +28,9 @@ nx = ny = int(np.sqrt(data.size/3))
 data = data.reshape([nx, ny, 3])
 #print(data.shape)
 
-im = ax.imshow(data[:,:,2], interpolation='bicubic', \
+im = ax.imshow(data[:,:,2], interpolation='nearest', \
           origin='lower', extent=[-0.5*nx*dx, 0.5*nx*dx, -0.5*ny*dy, 0.5*ny*dy],
-          cmap=plt.get_cmap('gnuplot'))
+          cmap=plt.get_cmap('gnuplot'), vmin=0.0, vmax=352.0)
                           
 ax.set_xlabel(r'$x$ (fm)', fontsize=16)
 ax.set_ylabel(r'$y$ (fm)', fontsize=16)
