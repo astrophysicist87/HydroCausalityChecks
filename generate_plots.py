@@ -70,6 +70,9 @@ def generate_frames(frameNumbers):
         if frameData.size == 0:
             frameData = np.array([[0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0]])
             
+        frameData = frameData[np.where( (np.abs(frameData[:,1]) < 15.7778) & \
+                                        (np.abs(frameData[:,2]) < 15.7778) )]
+            
         dataToPlot = frameData[:,[3,4]]     # swap x and y to get correct orientation
         
         # histogram with each entry weighted by causality conditions

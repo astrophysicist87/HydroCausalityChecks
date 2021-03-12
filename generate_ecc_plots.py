@@ -123,7 +123,7 @@ if __name__ == "__main__":
     for loop, frameNumber in enumerate(range(minFrameNumber, maxFrameNumber)):
         print('Generating frame =', frameNumber, ';', \
                maxFrameNumber - frameNumber, 'frames remaining')
-        e2s = generate_frame(frameNumber)
+        e2s = generate_eccentricity(frameNumber)
         if loop==0:
             e2TimeDependence = e2s
         else:

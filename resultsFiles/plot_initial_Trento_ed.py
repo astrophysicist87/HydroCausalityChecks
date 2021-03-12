@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 path = 'C:/Users/Christopher Plumberg/Desktop/Research/UIUC/HydroCausalityChecks/resultsFiles/'
 #filenames = [path + 'edFiles/RESULTS_OPTIMAL_FINAL_TAUFS0_TAU0_01_RS1/ed.dat']
-filenames = [path + 'edFiles/RESULTS_OPTIMAL_FINAL_TAUFS010_RS1/ed.dat']
+filenames = [path + 'edFiles/RESULTS_OPTIMAL_FINAL_TAUFS040_RS1/ed.dat']
 
 #for filename in glob.glob(path + 'edFiles/RESULTS_OPTIMAL_FINAL*/ed.dat'):
 for filename in filenames:
@@ -17,6 +17,7 @@ for filename in filenames:
     data = data.reshape([Ng, Ng])
     
     print(np.amax(data))
+    print('Total=',np.sum(data))
 
     fig, ax = plt.subplots( nrows=1, ncols=1 )
 

@@ -19,6 +19,7 @@ data = np.loadtxt(filename, skiprows=1, usecols=(1, 2, 3))
 maxED = np.amax(data[:,2])
 #data[:,2] /= maxED
 print(maxED)
+print('Total=',np.sum(data[:,2]))
 #print(np.amax(data[:,2]))
 #print(np.amin(data[:,2]))
 

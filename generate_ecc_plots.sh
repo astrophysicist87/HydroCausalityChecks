@@ -9,6 +9,9 @@ fileName=`basename $filePath`
 
 eDec=$3
 
+regenerateFrames=false
+if [ "$regenerateFrames" = true ]
+then
 (
 	cd $fileDirec
 	rm -rf ecc_frames
@@ -35,6 +38,7 @@ eDec=$3
 
 	cd ..
 )
+fi
 
 # Get total number of frames
 i=`\ls -1 $fileDirec/ecc_frames/ecc_frame*.dat | wc -l`
