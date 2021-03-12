@@ -1568,3 +1568,89 @@ void Cell_info::output_momentum_anisotropy_vs_tau(
     of1 << endl;
     of1.close();
 }
+
+
+//! This function outputs system's momentum anisotropy as a function of x, y, and tau
+void Cell_info::output_momentum_anisotropy_vs_x_y_tau(
+                double tau, double eta_min, double eta_max, SCGrid &arena) {
+    ostringstream filename;
+    filename << "momentum_anisotropy_grid_eta_" << eta_min
+             << "_" << eta_max << ".dat";
+    std::fstream of;
+    if (std::abs(tau - DATA.tau0) < 1e-10) {
+        of.open(filename.str().c_str(), std::fstream::out);
+        of << "# tau(fm)  x(fm)  y(fm)  ecc_{2,c}  ecc_{2,s}  ecc_{2,den}  "
+		   << "epsilon_p(ideal,c)  epsilon_p(ideal,s)  epsilon_p(ideal,den)  "
+		   << "epsilon_p(full,c)  epsilon_p(full,s)  epsilon_p(full,den)"
+           << endl;
+    } else {
+        of.open(filename.str().c_str(), std::fstream::app);
+    }
+    
+    for (int ieta = 0; ieta < arena.nEta(); ieta++) {
+        double eta = 0.0;
+        if (DATA.boost_invariant == 0) {
+            eta = ((static_cast<double>(ieta))*(DATA.delta_eta)
+                    - (DATA.eta_size)/2.0);
+        }
+        if (eta < eta_max && eta > eta_min) {
+            double x_o   = 0.0;
+            double y_o   = 0.0;
+            double w_sum = 0.0;
+            for (int iy = 0; iy < arena.nY(); iy++)
+            for (int ix = 0; ix < arena.nX(); ix++) {
+                double x_local    = - DATA.x_size/2. + ix*DATA.delta_x;
+                double y_local    = - DATA.y_size/2. + iy*DATA.delta_y;
+                double e_local    = arena(ix, iy, ieta).epsilon;  // 1/fm^4
+                double gamma_perp = arena(ix, iy, ieta).u[0];
+                x_o   += x_local*e_local*gamma_perp;
+                y_o   += y_local*e_local*gamma_perp;
+                w_sum += e_local*gamma_perp;
+            }
+            x_o /= w_sum;
+            y_o /= w_sum;
+            for (int iy = 0; iy < arena.nY(); iy++)
+            for (int ix = 0; ix < arena.nX(); ix++) {
+                double x_local   = (- DATA.x_size/2. + ix*DATA.delta_x - x_o);
+                double y_local   = (- DATA.y_size/2. + iy*DATA.delta_y - y_o);
+                double r_local   = sqrt(x_local*x_local + y_local*y_local);
+                double phi_local = atan2(y_local, x_local);
+
+                double e_local      = arena(ix, iy, ieta).epsilon;  // 1/fm^4
+                double rhob_local   = arena(ix, iy, ieta).rhob;     // 1/fm^3
+                double P_local      = eos.get_pressure(e_local, rhob_local);
+                double T_local      = eos.get_temperature(e_local, rhob_local);
+                double gamma_perp   = arena(ix, iy, ieta).u[0];
+                double ux           = arena(ix, iy, ieta).u[1];
+                double uy           = arena(ix, iy, ieta).u[2];
+                double pi_xx        = arena(ix, iy, ieta).Wmunu[4];
+                double pi_xy        = arena(ix, iy, ieta).Wmunu[5];
+                double pi_yy        = arena(ix, iy, ieta).Wmunu[7];
+                double bulk_Pi      = arena(ix, iy, ieta).pi_b;
+
+                double T_xx_ideal   = e_local*ux*ux - P_local*(-1. - ux*ux);
+                double T_xy_ideal   = (e_local + P_local)*ux*uy;
+                double T_yy_ideal   = e_local*uy*uy - P_local*(-1. - uy*uy);
+                double T_xx_full    = T_xx_ideal + pi_xx - bulk_Pi*(-1 - ux*ux);
+                double T_xy_full    = T_xy_ideal + pi_xy + bulk_Pi*ux*uy;
+                double T_yy_full    = T_yy_ideal + pi_yy - bulk_Pi*(-1 - uy*uy);
+                double weight_local = e_local;
+
+			    of << scientific << setw(18) << setprecision(8)
+			       << tau << "  " << x_local << "  " << y_local << "  "
+				   << gamma_perp*e_local*r_local*r_local*cos(2.*phi_local) << "  "
+				   << gamma_perp*e_local*r_local*r_local*sin(2.*phi_local) << "  "
+			       << gamma_perp*e_local*r_local*r_local << "  "
+				   << weight_local*(T_xx_ideal - T_yy_ideal) << "  "
+				   << weight_local*(2.*T_xy_ideal) << "  "
+				   << weight_local*(T_xx_ideal + T_yy_ideal) << "  "
+				   << weight_local*(T_xx_full - T_yy_full) << "  "
+				   << weight_local*(2.*T_xy_full) << "  "
+				   << weight_local*(T_xx_full + T_yy_full) << endl;
+            }
+        }
+    }
+
+    of.close();
+	return;    
+}

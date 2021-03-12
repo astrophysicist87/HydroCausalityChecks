@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 path = 'C:/Users/Christopher Plumberg/Desktop/Research/UIUC/'+\
        'HydroCausalityChecks/resultsFiles/'
 filename = path + 'PbPb_2760GeV_epsilon-u-Hydro-t0.1-0.dat'
+filename = path + 'initial.dat'
 
 fig, ax = plt.subplots( nrows=1, ncols=1 )
 
@@ -36,8 +37,8 @@ ax.set_ylabel(r'$y$ (fm)', fontsize=16)
 
 plt.colorbar(im, label=r'e [GeV/fm$^3$]')
 
-#plt.show()
-outfilename = path + 'initial_McGill.pdf'
-print('Saving to', outfilename)
-fig.savefig(outfilename, bbox_inches='tight')
-plt.close(fig)
+plt.show()
+#outfilename = path + 'initial_McGill.pdf'
+#print('Saving to', outfilename)
+#fig.savefig(outfilename, bbox_inches='tight')
+#plt.close(fig)
