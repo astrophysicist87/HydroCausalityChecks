@@ -17,7 +17,7 @@ then
 	rm -rf ecc_frames
 	mkdir ecc_frames
 
-	awk 'NR>1' $filename > newFileNoHeader.dat
+	awk 'NR>1' $fileName > newFileNoHeader.dat
 
 	# assuming same number of lines for each tau...
 	split --lines=$2 -d --suffix-length=4 newFileNoHeader.dat ecc_frames/frame
