@@ -48,6 +48,3 @@ echo 'Executing python3 generate_ecc_plots.py 0 '$i' '$fileDirec'/ecc_frames '$3
 python3 generate_ecc_plots.py 0 $i $fileDirec/ecc_frames $3
 
 
-
-
-
