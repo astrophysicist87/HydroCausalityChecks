@@ -7,6 +7,8 @@
 #SBATCH -o serial.o%j              # Name of batch job output file
 #SBATCH -e serial.e%j              # Name of batch job output file
 
+chmod +x generate_ecc_plots.sh
+
 echo 'Starting...'
 ./generate_ecc_plots.sh $e2file $gridSize $eDecoupling
 echo 'Finished!'
