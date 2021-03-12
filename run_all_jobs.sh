@@ -21,6 +21,6 @@
 for file in ../MUSIC/results_PbPb*Kompost/momentum_anisotropy_grid_eta_-0.5_0.5.dat
 do
         path=`readlink -e $file`
-        sbatch --export=ALL,file_to_check=`echo $path`,inGridSize=$[512**2],inEDecoupling=0.3 generate_ecc_plots.sbatch
+        sbatch --export=ALL,e2file=`echo $path`,gridSize=$[512**2],eDecoupling=0.3 generate_ecc_plots.sbatch
 done
 

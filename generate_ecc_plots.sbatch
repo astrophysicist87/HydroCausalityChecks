@@ -8,5 +8,5 @@
 #SBATCH -e serial.e%j              # Name of batch job output file
 
 echo 'Starting...'
-./generate_ecc_plots.sh $causality_check_file $gridSize $eDecoupling
+./generate_ecc_plots.sh $e2file $gridSize $eDecoupling
 echo 'Finished!'
