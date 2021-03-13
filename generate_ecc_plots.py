@@ -119,7 +119,7 @@ def generate_e2_time_dependence( e2TimeDependence ):
 #===============================================================================
 if __name__ == "__main__":
     # generate frames one by one
-    e2TimeDependence = None
+    e2TimeDependence = np.zeros(10)
     for loop, frameNumber in enumerate(range(minFrameNumber, maxFrameNumber)):
         print('Generating frame =', frameNumber, ';', \
                maxFrameNumber - frameNumber, 'frames remaining')
