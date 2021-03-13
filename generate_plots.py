@@ -89,7 +89,7 @@ def generate_frames(frameNumbers):
         
         print('xedges.shape =', xedges.shape)
         print('yedges.shape =', yedges.shape)
-        print 1/0
+        print(1/0)
         H = (H[ np.where( (xedges) & () ) ]).T
         axs[i].imshow(H.astype(int), interpolation='nearest', origin='low', \
                       extent=[-scalex-0.5*dx,scalex+0.5*dx,-scaley-0.5*dy,scaley+0.5*dy], \
