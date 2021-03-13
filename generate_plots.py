@@ -39,8 +39,10 @@ eDec = float(sys.argv[6])/hbarc
 
 colorsToUse = ['black','red','purple','blue','green','orange']
 
-# set frame stepsize if optional 8th argument passed in
-frameStep = 50 if len(sys.argv) < 9 else int(sys.argv[8])
+# set other optional arguments
+hydroString = '' if len(sys.argv) < 9 else sys.argv[8]
+frameStep = 50 if len(sys.argv) < 10 else int(sys.argv[9])
+
 
 #===============================================================================
 def colorFunction(entry):
@@ -98,6 +100,12 @@ def generate_frames(frameNumbers):
         if i==0:
             axs[i].set_ylabel(r'$y$ (fm)', fontsize=16)
         
+
+
+    plt.text(0.075, 0.1, r'$\tau = %(t)5.2f$ fm$/c$'%{'t': tau}, \
+        {'color': 'white', 'fontsize': 12}, transform=axs[0].transAxes,
+        horizontalalignment='left', verticalalignment='top')
+
     #plt.show()
     outfilename = outpath + '/frame_sequence.png'
     print('Saving to', outfilename)
