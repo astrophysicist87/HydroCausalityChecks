@@ -102,7 +102,7 @@ def generate_frames(frameNumbers):
         
 
 
-    plt.text(0.075, 0.1, r'$\tau = %(t)5.2f$ fm$/c$'%{'t': tau}, \
+    plt.text(0.075, 0.15, hydroString, \
         {'color': 'white', 'fontsize': 12}, transform=axs[0].transAxes,
         horizontalalignment='left', verticalalignment='top')
 
