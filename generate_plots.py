@@ -70,8 +70,8 @@ def generate_frames(frameNumbers):
         if frameData.size == 0:
             frameData = np.array([[0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0]])
             
-        frameData = frameData[np.where( (np.abs(frameData[:,1]) < 15.774) & \
-                                        (np.abs(frameData[:,2]) < 15.774) )]
+        frameData = frameData[np.where( (np.abs(frameData[:,3]) < 15.774) & \
+                                        (np.abs(frameData[:,4]) < 15.774) )]
             
         dataToPlot = frameData[:,[3,4]]     # swap x and y to get correct orientation
         
