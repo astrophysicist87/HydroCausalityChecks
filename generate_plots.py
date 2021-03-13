@@ -90,7 +90,9 @@ def generate_frames(frameNumbers):
         print('xedges.shape =', xedges.shape)
         print('yedges.shape =', yedges.shape)
         print('H.shape =', H.shape)
-        H = (H[ np.where( np.abs(xedges)<=17.0 ), np.where( np.abs(yedges)<=17.0 ) ]).T
+        H = H[ np.where( np.abs(xedges)<=17.0 ) ]
+        H = H[ :, np.where( np.abs(yedges)<=17.0 ) ]
+        H = H.T
         print('H.shape =', H.shape)
         print(1/0)
         axs[i].imshow(H.astype(int), interpolation='nearest', origin='low', \
