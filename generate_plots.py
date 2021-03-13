@@ -59,7 +59,7 @@ def colorFunction(entry):
 
 def generate_frames(frameNumbers):
     global tau
-    fig, axs = plt.subplots( nrows=1, ncols=len(frameNumbers), figsize=(15,3), sharey=True )
+    fig, axs = plt.subplots( nrows=1, ncols=len(frameNumbers), figsize=(15,4), sharey=True )
     plt.subplots_adjust( wspace=-0.01 )
     for i, frameNumber in enumerate(frameNumbers):
         # load data to plot
