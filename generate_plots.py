@@ -75,8 +75,8 @@ def generate_frames(frameNumbers):
         if frameData.size == 0:
             frameData = np.array([[0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0]])
             
-        frameData = frameData[np.where( (np.abs(frameData[:,3]) < 16.5) & \
-                                        (np.abs(frameData[:,4]) < 16.5) )]
+        #frameData = frameData[np.where( (np.abs(frameData[:,3]) < 16.5) & \
+        #                                (np.abs(frameData[:,4]) < 16.5) )]
             
         dataToPlot = frameData[:,[3,4]]     # swap x and y to get correct orientation
         
@@ -86,8 +86,11 @@ def generate_frames(frameNumbers):
                             bins=(nxbins, nybins), weights=vals, \
                             range=[[-scalex-0.5*dx,scalex+0.5*dx],
                                    [-scaley-0.5*dy,scaley+0.5*dy]])
-                
-        H = H.T
+        
+        print('xedges.shape =', xedges.shape)
+        print('yedges.shape =', yedges.shape)
+        print 1/0
+        H = (H[ np.where( (xedges) & () ) ]).T
         axs[i].imshow(H.astype(int), interpolation='nearest', origin='low', \
                       extent=[-scalex-0.5*dx,scalex+0.5*dx,-scaley-0.5*dy,scaley+0.5*dy], \
                       cmap=ListedColormap(colorsToUse), vmin=0, vmax=(len(colorsToUse)-1))
