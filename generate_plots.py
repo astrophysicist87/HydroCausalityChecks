@@ -40,7 +40,7 @@ eDec = float(sys.argv[6])/hbarc
 colorsToUse = ['black','red','purple','blue','green','orange']
 
 # set frame stepsize if optional 8th argument passed in
-frameStep = 50 if len(sys.argv) < 9 else sys.argv[8]
+frameStep = 50 if len(sys.argv) < 9 else int(sys.argv[8])
 
 #===============================================================================
 def colorFunction(entry):
