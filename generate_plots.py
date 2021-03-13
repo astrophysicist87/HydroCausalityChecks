@@ -39,6 +39,9 @@ eDec = float(sys.argv[6])/hbarc
 
 colorsToUse = ['black','red','purple','blue','green','orange']
 
+# set frame stepsize if optional 8th argument passed in
+frameStep = 50 if len(sys.argv) < 9 else sys.argv[8]
+
 #===============================================================================
 def colorFunction(entry):
     if entry[-2]==0:           # if basic hydro assumptions failed
@@ -98,12 +101,13 @@ def generate_frames(frameNumbers):
     #plt.show()
     outfilename = outpath + '/frame_sequence.png'
     print('Saving to', outfilename)
-    fig.savefig(outfilename, bbox_inches='tight')
+    fig.savefig(outfilename)
     plt.close(fig)
         
 
 #===============================================================================
 if __name__ == "__main__":
     # generate sequence of frames
-    frameNumbers = [0, 50, 100, 150, 200]
+    #frameNumbers = [0, 50, 100, 150, 200]
+    frameNumbers = range(0,5*frameStep,frameStep)
     generate_frames(frameNumbers)
