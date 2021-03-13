@@ -56,8 +56,8 @@ def colorFunction(entry):
 
 def generate_frames(frameNumbers):
     global tau
-    fig, axs = plt.subplots( nrows=1, ncols=len(frameNumbers), figsize=(15,3) )
-    plt.subplots_adjust( hspace=0.0, wspace=0.0 )
+    fig, axs = plt.subplots( nrows=1, ncols=len(frameNumbers), figsize=(15,3), sharey=True )
+    plt.subplots_adjust( wspace=0.0 )
     for i, frameNumber in enumerate(frameNumbers):
         # load data to plot
         frameData = np.loadtxt(inpath + '/frame%(frame)04d.dat' % {'frame': frameNumber})
@@ -70,8 +70,8 @@ def generate_frames(frameNumbers):
         if frameData.size == 0:
             frameData = np.array([[0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0]])
             
-        frameData = frameData[np.where( (np.abs(frameData[:,1]) < 15.7778) & \
-                                        (np.abs(frameData[:,2]) < 15.7778) )]
+        frameData = frameData[np.where( (np.abs(frameData[:,1]) < 15.774) & \
+                                        (np.abs(frameData[:,2]) < 15.774) )]
             
         dataToPlot = frameData[:,[3,4]]     # swap x and y to get correct orientation
         

@@ -4,7 +4,8 @@ import matplotlib.pyplot as plt
 path = 'C:/Users/Christopher Plumberg/Desktop/Research/UIUC/'+\
        'HydroCausalityChecks/resultsFiles/'
 filename = path + 'PbPb_2760GeV_epsilon-u-Hydro-t0.1-0.dat'
-filename = path + 'initial.dat'
+filename = path + 'PbPb_2760GeV_newGrid_epsilon-u-Hydro-t0.1-0.dat'
+#filename = path + 'initial.dat'
 
 fig, ax = plt.subplots( nrows=1, ncols=1 )
 
