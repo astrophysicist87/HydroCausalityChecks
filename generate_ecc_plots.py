@@ -16,7 +16,7 @@ outpath = inpath
 
 tau = 0.6   #initial tau (fm/c), overwritten by value in file
 
-energyCutOff = True
+energyCutOff = False
 #eDec = 0.3/hbarc  # impose cut off in fm^{-4}
 eDec = float(sys.argv[4])/hbarc
 
@@ -24,9 +24,9 @@ colorsToUse = ['black','red','purple','blue','green','orange']
 
 #===============================================================================
 def colorFunction(entry):
-    if entry[7]==0:           # if basic hydro assumptions failed
+    if entry[7]==0:            # if basic hydro assumptions failed
         return 5
-    elif entry[8]==0:         # else if diagonalization of pimunu failed
+    elif entry[8]==0:          # else if diagonalization of pimunu failed
         return 4
     elif entry[1]==11111111:   # else if sufficient conditions are satisfied
         return 3
@@ -36,8 +36,8 @@ def colorFunction(entry):
         return 1
 
 #===============================================================================
-def compute_eccentricity( data ):
-    return np.sqrt( np.sum(data[:,0])**2 + np.sum(data[:,1])**2 ) / np.sum(data[:,2])
+def compute_eccentricity_sq( data ):
+    return ( (np.sum(data[:,0]))**2 + (np.sum(data[:,1]))**2) / (np.sum(data[:,2]))**2
 
 #===============================================================================
 def generate_eccentricity(frameNumber):
@@ -57,27 +57,27 @@ def generate_eccentricity(frameNumber):
 
     e2Spatial = frameData[:,[12,13,14]]
     e2pIdeal  = frameData[:,[15,16,17]]
-    e2Full    = frameData[:,[18,19,20]]
+    e2pFull   = frameData[:,[18,19,20]]
     
     causalCells = np.where( vals==3 )
     indeterminateCells = np.where( (vals==2) | (vals==4) | (vals==5) )
     causalOrIndeterminateCells = np.where( vals > 1 )
     acausalCells = np.where( vals==1 )
     
-    return np.array([tau,\
-                     compute_eccentricity( e2Spatial ),
-                     compute_eccentricity( e2Spatial[causalCells] ),
-                     compute_eccentricity( e2Spatial[indeterminateCells] ),
-                     compute_eccentricity( e2Spatial[causalOrIndeterminateCells] ),
-                     compute_eccentricity( e2pIdeal ),
-                     compute_eccentricity( e2pIdeal[causalCells] ),
-                     compute_eccentricity( e2pIdeal[indeterminateCells] ),
-                     compute_eccentricity( e2pIdeal[causalOrIndeterminateCells] ),
-                     compute_eccentricity( e2Full ),
-                     compute_eccentricity( e2Full[causalCells] ),
-                     compute_eccentricity( e2Full[indeterminateCells] ),
-                     compute_eccentricity( e2Full[causalOrIndeterminateCells] )
-                     ])
+    return np.sqrt(np.array([tau**2,
+                     compute_eccentricity_sq( e2Spatial ),
+                     compute_eccentricity_sq( e2Spatial[causalCells] ),
+                     compute_eccentricity_sq( e2Spatial[indeterminateCells] ),
+                     compute_eccentricity_sq( e2Spatial[causalOrIndeterminateCells] ),
+                     compute_eccentricity_sq( e2pIdeal ),
+                     compute_eccentricity_sq( e2pIdeal[causalCells] ),
+                     compute_eccentricity_sq( e2pIdeal[indeterminateCells] ),
+                     compute_eccentricity_sq( e2pIdeal[causalOrIndeterminateCells] ),
+                     compute_eccentricity_sq( e2pFull ),
+                     compute_eccentricity_sq( e2pFull[causalCells] ),
+                     compute_eccentricity_sq( e2pFull[indeterminateCells] ),
+                     compute_eccentricity_sq( e2pFull[causalOrIndeterminateCells] )
+                     ]))
     
 #===============================================================================
 def generate_e2_time_dependence( e2TimeDependence ):
@@ -92,19 +92,19 @@ def generate_e2_time_dependence( e2TimeDependence ):
     axs[0].set_ylabel(r'$\epsilon_{2,x}$', fontsize=16)
     axs[0].legend( loc='best' )
 
-    axs[1].plot( e2TimeDependence[:,0], e2TimeDependence[:,1], color='black', lw=2 )
-    axs[1].plot( e2TimeDependence[:,0], e2TimeDependence[:,2], color='blue', lw=2 )
-    axs[1].plot( e2TimeDependence[:,0], e2TimeDependence[:,3], color='red', lw=2 )
-    axs[1].plot( e2TimeDependence[:,0], e2TimeDependence[:,4], color='purple', lw=2 )
+    axs[1].plot( e2TimeDependence[:,0], e2TimeDependence[:,5], color='black', lw=2 )
+    axs[1].plot( e2TimeDependence[:,0], e2TimeDependence[:,6], color='blue', lw=2 )
+    axs[1].plot( e2TimeDependence[:,0], e2TimeDependence[:,7], color='red', lw=2 )
+    axs[1].plot( e2TimeDependence[:,0], e2TimeDependence[:,8], color='purple', lw=2 )
             
     axs[1].set_xlabel(r'$\tau$ (fm/$c$)', fontsize=16)
     axs[1].set_ylabel(r'$\epsilon_{2,p}$ (ideal $T^{\mu\nu}$)', fontsize=16)
     axs[1].legend( loc='best' )
 
-    axs[2].plot( e2TimeDependence[:,0], e2TimeDependence[:,1], color='black', lw=2 )
-    axs[2].plot( e2TimeDependence[:,0], e2TimeDependence[:,2], color='blue', lw=2 )
-    axs[2].plot( e2TimeDependence[:,0], e2TimeDependence[:,3], color='red', lw=2 )
-    axs[2].plot( e2TimeDependence[:,0], e2TimeDependence[:,4], color='purple', lw=2 )
+    axs[2].plot( e2TimeDependence[:,0], e2TimeDependence[:,9], color='black', lw=2 )
+    axs[2].plot( e2TimeDependence[:,0], e2TimeDependence[:,10], color='blue', lw=2 )
+    axs[2].plot( e2TimeDependence[:,0], e2TimeDependence[:,11], color='red', lw=2 )
+    axs[2].plot( e2TimeDependence[:,0], e2TimeDependence[:,12], color='purple', lw=2 )
             
     axs[2].set_xlabel(r'$\tau$ (fm/$c$)', fontsize=16)
     axs[2].set_ylabel(r'$\epsilon_{2,p}$ (full $T^{\mu\nu}$)', fontsize=16)
@@ -119,7 +119,7 @@ def generate_e2_time_dependence( e2TimeDependence ):
 #===============================================================================
 if __name__ == "__main__":
     # generate frames one by one
-    e2TimeDependence = np.zeros(10)
+    e2TimeDependence = np.zeros(0)
     for loop, frameNumber in enumerate(range(minFrameNumber, maxFrameNumber)):
         print('Generating frame =', frameNumber, ';', \
                maxFrameNumber - frameNumber, 'frames remaining')
