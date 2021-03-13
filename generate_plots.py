@@ -107,8 +107,10 @@ def generate_frames(frameNumbers):
                 horizontalalignment='left', verticalalignment='top')
                 
         axs[i].set_xlabel(r'$x$ (fm)', fontsize=16)
+        axs[i].set_xticks([-10,0,10])
         if i==0:
             axs[i].set_ylabel(r'$y$ (fm)', fontsize=16)
+            axs[i].set_yticks([-10,0,10])
         
 
 
