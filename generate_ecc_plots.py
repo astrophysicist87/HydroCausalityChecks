@@ -134,4 +134,4 @@ if __name__ == "__main__":
     # export to file in case plotting fails
     np.savetxt( outpath + '/e2_ALL_vs_tau.dat', e2TimeDependence )
     
-    generate_e2_time_dependence( e2TimeDependence )
+    #generate_e2_time_dependence( e2TimeDependence )
