@@ -1,6 +1,10 @@
 import numpy as np
 import os, sys
 
+hbarC = 0.19733
+
+#====================================================
+
 # compute average zeta/s
 def compute_average_zeta_by_s( data ):
     tau = data[0,0]
@@ -11,7 +15,7 @@ def compute_average_zeta_by_s( data ):
     average_T = np.average(T, weights=e)
     average_eta_by_s = np.average(eta_by_s, weights=e)
     average_zeta_by_s = np.average(zeta_by_s, weights=e)
-    return tau, average_T, average_eta_by_s, average_zeta_by_s
+    return tau, hbarC*average_T, average_eta_by_s, average_zeta_by_s
 
 #===============================================================================
 if __name__ == "__main__":
