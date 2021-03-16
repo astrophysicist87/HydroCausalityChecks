@@ -4,7 +4,7 @@ import os, sys
 # compute average zeta/s
 def compute_average_zeta_by_s( data ):
     tau = data[0,0]
-    [T,e,P,eta,zeta] = data[:,[3,4,5,7,8]]
+    [T,e,P,eta,zeta] = data[:,[3,4,5,7,8]].T
     s = (e+P)/T
     eta_by_s = eta/s
     zeta_by_s = zeta/s
