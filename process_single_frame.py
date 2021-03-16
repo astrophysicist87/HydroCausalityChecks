@@ -17,8 +17,8 @@ def compute_average_zeta_by_s( data ):
 if __name__ == "__main__":
     # load file
     filepath = sys.argv[1]
-    path = os.dirname( filepath )
-    filename = os.basename( filepath )
+    path = os.path.dirname( filepath )
+    filename = os.path.basename( filepath )
     data = np.loadtxt( filepath )
     
     tau, average_T, average_eta_by_s, average_zeta_by_s = compute_average_zeta_by_s( data )
