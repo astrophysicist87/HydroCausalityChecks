@@ -45,7 +45,6 @@ def generate_eccentricity(frameNumber):
     vals = np.array([colorFunction(entry) for entry in frameData])
 
     e2Spatial = frameData[:,[12,13,14]]
-    e2pIdeal  = frameData[:,[15,16,17]]
     e2pFull   = frameData[:,[18,19,20]]
     
     causalCells = np.where( vals==3 )
@@ -56,6 +55,8 @@ def generate_eccentricity(frameNumber):
     
 
 
+
+
 #===============================================================================
 if __name__ == "__main__":
     # generate frames one by one
@@ -64,6 +65,7 @@ if __name__ == "__main__":
         print('Generating frame =', frameNumber, ';', \
                maxFrameNumber - frameNumber, 'frames remaining')
         e2s = generate_eccentricity(frameNumber)
+        print(e2s)
         if loop==0:
             e2TimeDependence = e2s
         else:
