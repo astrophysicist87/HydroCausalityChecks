@@ -40,11 +40,11 @@ def generate_e2_time_dependence( mode, outpath, e2TimeDependence ):
     axs[1].set_title(r'$\epsilon_{2,p}$ (full $T^{\mu\nu}$)', fontsize=16)
     axs[1].legend( loc='best' )
 
-    #plt.show()
-    outfilename = outpath + '/e2_vs_tau_comp.pdf'
-    print('Saving to', outfilename)
-    fig.savefig(outfilename, bbox_inches='tight')
-    plt.close(fig)
+    plt.show()
+    #outfilename = outpath + '/e2_vs_tau_comp.pdf'
+    #print('Saving to', outfilename)
+    #fig.savefig(outfilename, bbox_inches='tight')
+    #plt.close(fig)
     
 
 
