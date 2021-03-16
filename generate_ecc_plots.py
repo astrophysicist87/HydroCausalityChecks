@@ -16,9 +16,9 @@ outpath = inpath
 
 tau = 0.6   #initial tau (fm/c), overwritten by value in file
 
-energyCutOff = False
+#energyCutOff = False
 #eDec = 0.3/hbarc  # impose cut off in fm^{-4}
-eDec = float(sys.argv[4])/hbarc
+#eDec = float(sys.argv[4])/hbarc
 
 colorsToUse = ['black','red','purple','blue','green','orange']
 
@@ -47,8 +47,8 @@ def generate_eccentricity(frameNumber):
     if frameData.size != 0:
         tau = frameData[0,2]
         frameData = np.unique(frameData, axis=0)
-        if energyCutOff:
-            frameData = frameData[np.where(frameData[:,6] >= eDec)]
+        #if energyCutOff:
+        #    frameData = frameData[np.where(frameData[:,6] >= eDec)]
             
     if frameData.size == 0:
         frameData = np.zeros([2,21])

@@ -6,7 +6,7 @@ hbarC = 0.19733
 #====================================================
 
 # compute average zeta/s
-def compute_average_zeta_by_s( data ):
+def compute_averages( data ):
     tau = data[0,0]
     [T,e,P,eta,zeta] = data[:,[3,4,5,7,8]].T
     s = (e+P)/T
@@ -25,6 +25,6 @@ if __name__ == "__main__":
     filename = os.path.basename( filepath )
     data = np.loadtxt( filepath )
     
-    tau, average_T, average_eta_by_s, average_zeta_by_s = compute_average_zeta_by_s( data )
+    tau, average_T, average_eta_by_s, average_zeta_by_s = compute_averages( data )
     
     print(tau, average_T, average_eta_by_s, average_zeta_by_s)

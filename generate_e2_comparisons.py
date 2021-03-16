@@ -16,7 +16,8 @@ e2Filenames = {'EKT': 'momentum_anisotropy_eta_-0.5_0.5.dat',
                'FS': 'momentum_anisotropy_eta_-0.5_0.5.dat',
                'no': 'momentum_anisotropy_eta_-0.5_0.5.dat',
                'Duke': 'anisotropies.dat'}
-linestyles = {'EKT': '--', 'FS': '-.', 'no': ':', 'Duke': '-'}
+#linestyles = {'EKT': '--', 'FS': '-.', 'no': ':', 'Duke': '-'}
+linestyles = {'EKT': '-', 'FS': '--', 'no': '-.', 'Duke': ':'}
 tau0 = {'EKT': 0.8, 'FS': 0.8, 'no': 0.4, 'Duke': 1.16}
 
 #(0,6,7,5)
@@ -51,10 +52,14 @@ def generate_e2_time_dependence( mode, outpath, e2TimeDependence ):
 
 #===============================================================================
 def generate_ALL_e2_time_dependences():
-    fig, axs = plt.subplots( nrows=1, ncols=2, figsize=(9,4) )
+    fig, axs = plt.subplots( nrows=1, ncols=2, figsize=(9,4), sharey=False )
+    plt.subplots_adjust( wspace=0 )
     
     axs[0].axhline(0.0, color='black')
     axs[1].axhline(0.0, color='black')
+    
+    # set halfway times
+    halfCausalTaus = {'EKT': 3.58977, 'FS': 3.56162, 'no': 3.52675, 'Duke': 3.21882}
 
     for mode in ['EKT', 'FS', 'no', 'Duke']:
         # import file
@@ -64,39 +69,47 @@ def generate_ALL_e2_time_dependences():
         
         e2TimeDependence = e2TimeDependence[ np.where( e2TimeDependence[:,0] <= maxtaus[mode] )]
         
-        t0 = tau0[mode]
+        t0 = tau0[mode]   
         outpath = inpath + 'all_results/' + paths[mode] + '/'
-        #axs.plot( e2TimeDependence[:,0]/maxtaus[mode], e2TimeDependence[:,1], color='magenta', lw=2,
-        #          label=r'$\epsilon_{2,p}$, ideal $T^{\mu\nu}$' )
         axs[0].plot( (e2TimeDependence[:,0]-t0)/(maxtaus[mode]-t0), e2TimeDependence[:,2],
                   color='crimson', lw=2, ls=linestyles[mode] )
         axs[1].plot( (e2TimeDependence[:,0]-t0)/(maxtaus[mode]-t0), e2TimeDependence[:,3],
                   color='steelblue', lw=2, ls=linestyles[mode] )
 
-    '''l1 = axs.axhline( -1000.0, lw=3, color='crimson', label=r'$\epsilon_{2,p}$' )
-    l2 = axs.axhline( -1000.0, lw=3, color='steelblue', label=r'$\epsilon_{2,x}$' )
-    l4 = axs.axhline( -1000.0, lw=3, color='black', ls='-', label='Duke' )
-    l5 = axs.axhline( -1000.0, lw=3, color='black', ls='--', label='EKT Kompost' )
-    l6 = axs.axhline( -1000.0, lw=3, color='black', ls='-.', label='FS Kompost' )
-    l7 = axs.axhline( -1000.0, lw=3, color='black', ls=':', label='no Kompost' )
+        tHalf = halfCausalTaus[mode]
+        e2pTHalf = np.interp( tHalf, e2TimeDependence[:,0], e2TimeDependence[:,2])
+        e2xTHalf = np.interp( tHalf, e2TimeDependence[:,0], e2TimeDependence[:,3])
+        axs[0].plot( (tHalf-t0)/(maxtaus[mode]-t0), e2pTHalf, 'o', color='black', ms=5 )
+        axs[1].plot( (tHalf-t0)/(maxtaus[mode]-t0), e2xTHalf, 'o', color='black', ms=5 )
 
-    lc1 = (l1, l2)
-    lc2 = (l4, l5, l6, l7)
-    
-    #legend1=axs.legend(lc1, ('Causal', 'Indeterminate', 'Acausal'), fontsize=16, loc=(0.47,0.6))
-    #axs.legend(lc2, ('EKT Kompost', 'FS Kompost', 'no Kompost', 'Duke'), fontsize=16, loc=(0.5,0.2))
-    #plt.gca().add_artist(legend1)
+    axs[1].axhline( -1000.0, color='black', ls='-', label=r'IP-Glasma + EKT Kompost' )
+    axs[1].axhline( -1000.0, color='black', ls='--', label=r'IP-Glasma + FS Kompost' )
+    axs[1].axhline( -1000.0, color='black', ls='-.', label=r'IP-Glasma + no Kompost' )
+    axs[1].axhline( -1000.0, color='black', ls=':', label=r'Trento + FS' )
 
-    axs.set_ylim([0.0, 0.2])
-    axs.set_xlabel(r'$(\tau-\tau_0)/(\tau_{\mathrm{max}}-\tau_0)$', fontsize=16)
-    axs.set_ylabel(r'$\epsilon_2$', fontsize=16)
-    axs.legend( loc='best', ncol=2 )'''
+    plt.text(0.15, 0.9, r'$\epsilon_{2,p}$', \
+            {'color': 'black', 'fontsize': 16}, transform=axs[0].transAxes,
+            horizontalalignment='center', verticalalignment='top')
+    plt.text(0.15, 0.15, r'$\epsilon_{2,x}$', \
+            {'color': 'black', 'fontsize': 16}, transform=axs[1].transAxes,
+            horizontalalignment='center', verticalalignment='top')
 
-    plt.show()
-    #outfilename = inpath + 'all_results/e2_vs_tau_comparison.pdf'
-    #print('Saving to', outfilename)
-    #fig.savefig(outfilename, bbox_inches='tight')
-    #plt.close(fig)
+    axs[0].set_ylim(bottom=-0.01, top=0.2)
+    axs[1].set_ylim([-0.005,0.125])
+    axs[0].set_xlabel(r'$\Delta\tau/\Delta\tau_{\mathrm{max}}$', fontsize=16)
+    axs[1].set_xlabel(r'$\Delta\tau/\Delta\tau_{\mathrm{max}}$', fontsize=16)
+    #axs[0].set_ylabel(r'$\epsilon_{2,p}$', fontsize=16)
+    #axs[1].yaxis.set_label_position("right")
+    axs[1].yaxis.tick_right()
+    #axs[1].set_ylabel(r'$\epsilon_{2,x}$', fontsize=16)
+    #axs[0].legend( loc='best' )
+    axs[1].legend( loc='best' )
+
+    #plt.show()
+    outfilename = inpath + 'all_results/e2_vs_tau_comparison.pdf'
+    print('Saving to', outfilename)
+    fig.savefig(outfilename, bbox_inches='tight')
+    plt.close(fig)
     
 #===============================================================================
 if __name__ == "__main__":
