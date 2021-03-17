@@ -70,6 +70,8 @@ if __name__ == "__main__":
             e2TimeDependence = e2s
         else:
             e2TimeDependence = np.c_[ e2TimeDependence, e2s ]
+        if e2s[0] >= float(sys.argv[4]):
+            break
 
     e2TimeDependence = e2TimeDependence.T
     
