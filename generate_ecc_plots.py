@@ -18,7 +18,7 @@ tau = 0.6   #initial tau (fm/c), overwritten by value in file
 
 energyCutOff = False
 eDec = 0.3/hbarc  # impose cut off in fm^{-4}
-eDec = float(sys.argv[4])/hbarc
+#eDec = float(sys.argv[4])/hbarc
 
 colorsToUse = ['black','red','purple','blue','green','orange']
 
