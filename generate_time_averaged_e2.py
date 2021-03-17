@@ -35,6 +35,8 @@ def generate_eccentricity(frameNumber):
     if frameData.size != 0:
         tau = frameData[0,2]
         frameData = np.unique(frameData, axis=0)
+        #if energyCutOff:
+        #    frameData = frameData[np.where(frameData[:,6] >= eDec)]
             
     if frameData.size == 0:
         frameData = np.zeros([2,21])
