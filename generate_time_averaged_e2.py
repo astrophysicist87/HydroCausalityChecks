@@ -26,9 +26,6 @@ def colorFunction(entry):
     else:                      # else if necessary conditions are violated
         return 1
 
-#===============================================================================
-def compute_eccentricity_sq( data ):
-    return ( (np.sum(data[:,0]))**2 + (np.sum(data[:,1]))**2) / (np.sum(data[:,2]))**2
 
 #===============================================================================
 def generate_eccentricity(frameNumber):
@@ -49,32 +46,48 @@ def generate_eccentricity(frameNumber):
     
     causalCells = np.where( vals==3 )
     
-    return np.sqrt( np.array([tau**2,
-                              compute_eccentricity_sq( e2Spatial ), compute_eccentricity_sq( e2Spatial[causalCells] ),
-                              compute_eccentricity_sq( e2pFull ), compute_eccentricity_sq( e2pFull[causalCells] ) ]))
-    
+    #runninge2Spatial       += np.sum( e2Spatial, axis=0 )
+    #runninge2SpatialCausal += np.sum( e2Spatial[causalCells], axis=0 )
+    #runninge2pFull         += np.sum( e2pFull, axis=0 )
+    #runninge2pFullCausal   += np.sum( e2pFull[causalCells], axis=0 )
+    return tau, np.sum( e2Spatial, axis=0 ), np.sum( e2Spatial[causalCells], axis=0 ),
+           np.sum( e2pFull, axis=0 ),   np.sum( e2pFull[causalCells], axis=0 )
 
-
+#===============================================================================
+def compute_eccentricity( data ):
+    return np.sqrt( data[0]**2 + data[1]**2 ) / data[2]
 
 
 #===============================================================================
 if __name__ == "__main__":
     # generate frames one by one
-    e2TimeDependence = np.zeros(0)
+    #e2TimeDependence = np.zeros(0)
+    runninge2x = np.zeros([3])
+    runninge2xC = np.zeros([3])
+    runninge2p = np.zeros([3])
+    runninge2pC = np.zeros([3])
     for loop, frameNumber in enumerate(range(minFrameNumber, maxFrameNumber)):
         print('Generating frame =', frameNumber, ';', \
                maxFrameNumber - frameNumber, 'frames remaining')
-        e2s = generate_eccentricity(frameNumber)
-        print(e2s)
-        if loop==0:
-            e2TimeDependence = e2s
-        else:
-            e2TimeDependence = np.c_[ e2TimeDependence, e2s ]
-        if e2s[0] >= float(sys.argv[4]):
+        tau, e2x, e2xC, e2p, e2pC = generate_eccentricity(frameNumber)
+        runninge2x += e2x
+        runninge2xC += e2xC
+        runninge2p += e2p
+        runninge2pC += e2pC
+        #if loop==0:
+        #    e2TimeDependence = e2s
+        #else:
+        #    e2TimeDependence = np.c_[ e2TimeDependence, e2s ]
+        if tau >= float(sys.argv[4]):
             break
 
-    e2TimeDependence = e2TimeDependence.T
+    #e2TimeDependence = e2TimeDependence.T
+    print( tau, compute_eccentricity( runninge2x ),
+                compute_eccentricity( runninge2xC ),
+                compute_eccentricity( runninge2p ),
+                compute_eccentricity( runninge2pC ) )
     
     # export to file in case plotting fails
-    np.savetxt( outpath + '/e2_ALL_vs_tau.dat', e2TimeDependence )
+    #print('Saving to ' + outpath + '/e2_ALL_vs_tau.dat')
+    #np.savetxt( outpath + '/e2_ALL_vs_tau.dat', e2TimeDependence )
     
