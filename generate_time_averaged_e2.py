@@ -70,6 +70,11 @@ if __name__ == "__main__":
         print('Generating frame =', frameNumber, ';', \
                maxFrameNumber - frameNumber, 'frames remaining')
         tau, e2x, e2xC, e2p, e2pC = generate_eccentricity(frameNumber)
+        print('Check:', tau,
+                compute_eccentricity( e2x ),
+                compute_eccentricity( e2xC ),
+                compute_eccentricity( e2p ),
+                compute_eccentricity( e2pC ) )
         runninge2x += e2x
         runninge2xC += e2xC
         runninge2p += e2p
