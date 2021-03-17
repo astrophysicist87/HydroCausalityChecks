@@ -50,7 +50,7 @@ def generate_eccentricity(frameNumber):
     #runninge2SpatialCausal += np.sum( e2Spatial[causalCells], axis=0 )
     #runninge2pFull         += np.sum( e2pFull, axis=0 )
     #runninge2pFullCausal   += np.sum( e2pFull[causalCells], axis=0 )
-    return tau, np.sum( e2Spatial, axis=0 ), np.sum( e2Spatial[causalCells], axis=0 ),
+    return tau, np.sum( e2Spatial, axis=0 ), np.sum( e2Spatial[causalCells], axis=0 ),\
            np.sum( e2pFull, axis=0 ),   np.sum( e2pFull[causalCells], axis=0 )
 
 #===============================================================================
