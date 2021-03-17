@@ -16,9 +16,9 @@ outpath = inpath
 
 tau = 0.6   #initial tau (fm/c), overwritten by value in file
 
-#energyCutOff = False
-#eDec = 0.3/hbarc  # impose cut off in fm^{-4}
-#eDec = float(sys.argv[4])/hbarc
+energyCutOff = False
+eDec = 0.3/hbarc  # impose cut off in fm^{-4}
+eDec = float(sys.argv[4])/hbarc
 
 colorsToUse = ['black','red','purple','blue','green','orange']
 
@@ -47,8 +47,8 @@ def generate_eccentricity(frameNumber):
     if frameData.size != 0:
         tau = frameData[0,2]
         frameData = np.unique(frameData, axis=0)
-        #if energyCutOff:
-        #    frameData = frameData[np.where(frameData[:,6] >= eDec)]
+        if energyCutOff:
+            frameData = frameData[np.where(frameData[:,6] >= eDec)]
             
     if frameData.size == 0:
         frameData = np.zeros([2,21])
@@ -131,7 +131,11 @@ if __name__ == "__main__":
 
     e2TimeDependence = e2TimeDependence.T
     
+    filenameStem = ''
+    if energyCutOff:
+        filenameStem = '_w_eCut'
+    
     # export to file in case plotting fails
-    np.savetxt( outpath + '/e2_ALL_vs_tau.dat', e2TimeDependence )
+    np.savetxt( outpath + '/e2_ALL_vs_tau' + filenameStem + '.dat', e2TimeDependence )
     
     #generate_e2_time_dependence( e2TimeDependence )
