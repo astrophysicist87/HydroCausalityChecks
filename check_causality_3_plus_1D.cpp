@@ -264,7 +264,7 @@ bool get_sorted_eigenvalues_of_pi_mu_nu(
 	if ( test_mode )
 		cerr << "Preconditions check: "
 			 << tmp0 << "   " << tmp1 << "   "
-			 << tmp2 << "   " << tmp3 < ";   "
+			 << tmp2 << "   " << tmp3 << ";   "
 			 << Lambda_0 << "   " << Lambda_1 << "   "
 			 << Lambda_2 << "   " << Lambda_3 << endl;
 
