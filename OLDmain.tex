@@ -1,0 +1,82 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage[dvipsnames]{xcolor}
+
+\geometry{portrait, margin=0.5in}
+
+\def\l{\left}
+\def\r{\right}
+\newcommand{\bea}{\begin{eqnarray}}
+\newcommand{\eea}{\end{eqnarray}}
+\newcommand{\bml}{\begin{subequations}}
+\newcommand{\eml}{\end{subequations}}
+\newcommand{\travis}[1]{{\color{blue} #1}}
+\definecolor{purple}{rgb}{0.52, 0., 0.52}
+\newcommand{\christopher}[1]{{\color{purple} #1}}
+
+
+\title{Applicability of hydrodynamics in heavy-ions}
+\author{UIUC}
+\date{December 2020}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+
+\section{Christopher's Notes}
+
+\large
+
+These are my notes describing my checking of Jorge Noronha's relativistic causality conditions for the hydrodynamic code iEBE-VISHNU.  Most of the checking is trivial: the only possibly tricky part involves the conversion between the signs of the metric.  Jorge's metric is mostly positive, whereas iEBE-VISHNU's metric is mostly negative.  Both are using the DNMR equations of motion, and all coefficients appearing in these equations are positive.
+
+\medskip
+
+Converting between metric conventions requires specifying which quantities are held fixed (i.e., given the same sign) in both conventions.  Everything else can then be obtained by applying factors of the metric to raise, lower, or contract indices.
+
+\medskip
+
+For the purpose of converting the iEBE-VISHNU hydrodynamic variables to their counterparts in Jorge's conditions, I assume the following quantities have the same signs in both metric conventions:
+\begin{itemize}
+    \item $x^\mu$
+    \item $u^\mu$
+    \item $p^\mu$
+    \item $\partial_\mu$
+    \item $\sigma^{\mu}_{\nu}$
+    \item $\pi^{\mu\nu}$
+\end{itemize}
+In particular, the last assumption implies that $\pi^\mu_\nu$ (and therefore its eigenvalues) will have opposite signs in the two conventions.
+
+
+\section{Causality Constraints}
+
+\subsection{Only $\eta$, $\zeta$, $\tau_\pi$, and $\tau_\Pi$}
+The causality constraints become quite simple when not considering any of the second order transport coefficients. In fact, many of them are trivially satisfied.
+
+\textbf{Necessary Conditions:}
+\begin{align}
+    \epsilon + p + \Pi - \frac{\eta}{\tau_\pi} \geq& 0\\
+    \epsilon + p + \Pi + \Lambda_a - \frac{\eta}{\tau_\pi} \geq& 0\\
+    \frac{4\eta}{3\tau_\pi} + \frac{\zeta}{\tau_\Pi} + \left(\epsilon + p + \Pi + \Lambda_a \right)c_s^2 \geq& 0\\
+    \epsilon + p + \Pi + \Lambda_a - \frac{4\eta}{3\tau_\pi} - \frac{\zeta}{\tau_\Pi} - \left(\epsilon + p + \Pi + \Lambda_a \right)c_s^2 \geq& 0
+\end{align}
+Note that conditions 4a and 4c from the original paper are trivially satisfied.
+
+
+\textbf{Sufficient Conditions}:
+\begin{align}
+    \left( \epsilon + p + \Pi - |\Lambda_1| \right) - \frac{\eta}{\tau_\pi} \geq& 0\\
+    \frac{4\eta}{3\tau_\pi} + \frac{\zeta}{\tau_\Pi} + |\Lambda_1| + \Lambda_3 c_s^2 - \left( \epsilon + p + \Pi \right)\left( 1 - c_s^2 \right) \leq& 0\\
+    \frac{\eta}{3\tau_\pi} + \frac{\zeta}{\tau_\Pi} + \left(\epsilon + p + \Pi - |\Lambda_1| \right)c_s^2 \geq& 0
+\end{align}
+Note that conditions 5b,5c,5d,5g,5h from the original paper are all trivially satisfied.
+
+
+
+\end{document}
+

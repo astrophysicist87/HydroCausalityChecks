@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 #import glob
 
 path = 'C:/Users/Christopher Plumberg/Desktop/Research/UIUC/HydroCausalityChecks/resultsFiles/'
-filenames = [path + 'edFiles/RESULTS_OPTIMAL_FINAL_TAUFS0_TAU0_01_RS1/ed.dat']
-filenames = [path + 'edFiles/RESULTS_OPTIMAL_FINAL_TAUFS040_RS1/ed.dat']
+filenames = [path + 'edFiles/RESULTS_OPTIMAL_FINAL_TAUFS0_TAU0_1_RS1/ed.dat']
+#filenames = [path + 'edFiles/RESULTS_OPTIMAL_FINAL_TAUFS040_RS1/ed.dat']
 
 #for filename in glob.glob(path + 'edFiles/RESULTS_OPTIMAL_FINAL*/ed.dat'):
 for filename in filenames:

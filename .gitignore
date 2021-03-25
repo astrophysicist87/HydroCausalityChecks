@@ -7,3 +7,7 @@
 *.pdf
 resultsFiles/initial.hdf
 *.hdf
+*.aux
+*.log
+*.gz
+*.docx

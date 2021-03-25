@@ -55,8 +55,10 @@ int main(int argc, char *argv[])
 
 		// Run test - just pick some values
 		tau = 0.0; x = 0.0; y = 0.0;
-		pi00 = 3.5078e-7; pi01 = 0.0013504; pi02 = -0.0045209; pi11 = 0.21482;
-		pi12 = 0.00048869; pi22 = 0.2144; pi33 = -0.42917;
+		/*pi00 = 3.5078e-7; pi01 = 0.0013504; pi02 = -0.0045209; pi11 = 0.21482;
+		pi12 = 0.00048869; pi22 = 0.2144; pi33 = -0.42917;*/
+		pi00 = 0.37987993E-004; pi01 = 0.26556597E-001; pi02 = 0.55875212E-002; pi11 = 20.007846;
+		pi12 = -0.79495762; pi22 = 16.140470; pi33 = -36.148278;
 		//Lambda_0 = 0.0; Lambda_1 = -0.42917; Lambda_2 = 0.214173; Lambda_3 = 0.215151;
 		double rands[13] = {0.7486510936, 0.7832718015, 0.6676001377, 0.6540939720, 
 0.1373497793, 0.1484691683, 0.9348005828, 0.7079133674, 0.9495418450, 
@@ -195,6 +197,28 @@ bool get_sorted_eigenvalues_of_pi_mu_nu(
 
 	// sort by magnitude first
 	gsl_eigen_nonsymmv_sort(eval, evec, GSL_EIGEN_SORT_ABS_ASC);
+
+	// check eigensystem
+	/*if (true)
+	for (int i = 0; i < 4; i++)
+      {
+        gsl_complex eval_i
+           = gsl_vector_complex_get (eval, i);
+        gsl_vector_complex_view evec_i
+           = gsl_matrix_complex_column (evec, i);
+
+        printf ("eigenvalue = %g + %gi\n",
+                GSL_REAL(eval_i), GSL_IMAG(eval_i));
+        printf ("eigenvector = \n");
+        for (int j = 0; j < 4; ++j)
+          {
+            gsl_complex z =
+              gsl_vector_complex_get(&evec_i.vector, j);
+            printf("%g + %gi\n", GSL_REAL(z), GSL_IMAG(z));
+          }
+      }*/
+
+
 
 	for ( int elem = 0; elem < 4; elem++ )
 		if ( abs(GSL_IMAG(gsl_vector_complex_get(eval, elem)))
