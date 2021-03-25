@@ -21,7 +21,7 @@
 
 using namespace std;
 
-const double epsilon = 1e-4;
+const double epsilon = 1e-6;
 
 bool test_mode;
 
@@ -221,13 +221,14 @@ bool get_sorted_eigenvalues_of_pi_mu_nu(
 
 	for ( int elem = 0; elem < 4; elem++ )
 		if ( abs(GSL_IMAG(gsl_vector_complex_get(eval, elem)))
-				> 0.01*abs(GSL_REAL(gsl_vector_complex_get(eval, elem))) )
+				> epsilon*abs(GSL_REAL(gsl_vector_complex_get(eval, elem))) )
 		{
 			cerr << "ERROR(complex): " << -1e100 << " < " << epsilon << ": "
-				<< 0.0 << "   " << 0.0 << "   " << 0.0 << "   " << 0.0 << "   ";
+				 << elem << "   " << GSL_REAL(gsl_vector_complex_get(eval, elem)) << "   "
+				 << GSL_IMAG(gsl_vector_complex_get(eval, elem)) << "   " << -12345 << "   ";
 			cerr << pi00 << "   " << pi01 << "   " << pi02 << "   " << pi03 << "   "
-				<< pi11 << "   " << pi12 << "   " << pi13 << "   "
-				<< pi22 << "   " << pi23 << "   " << pi33 << endl;
+				 << pi11 << "   " << pi12 << "   " << pi13 << "   "
+				 << pi22 << "   " << pi23 << "   " << pi33 << endl;
 			return false;
 		}
 
@@ -261,18 +262,20 @@ bool get_sorted_eigenvalues_of_pi_mu_nu(
 	Lambda_2 = ( abs(tmp1) > abs(tmp2) ) ? tmp1 : tmp2;
 	Lambda_3 = tmp3;
 	
-	//if ( test_mode )
+	if ( test_mode )
 		cerr << "Preconditions check: "
 			 << tmp0 << "   " << tmp1 << "   "
 			 << tmp2 << "   " << tmp3 << ";   "
 			 << Lambda_0 << "   " << Lambda_1 << "   "
 			 << Lambda_2 << "   " << Lambda_3 << endl;
 
-	if ( ratio > 0.01 )
+	if ( ratio > epsilon )
 	{
 		cerr /*<< "ERROR: no zero eigenvalues found!  " << endl*/
-			<< "ERROR: " << ratio << " > " << 0.01 << ": " /*<< endl*/
-			<< tmp0 << "   " << tmp1 << "   " << tmp2 << "   " << tmp3 << "   ";
+			<< "ERROR: " << ratio << " > " << epsilon << ": " /*<< endl*/
+			<< tmp0 << "   " << tmp1 << "   " << tmp2 << "   " << tmp3 << ";   "
+			<< Lambda_0 << "   " << Lambda_1 << "   "
+			<< Lambda_2 << "   " << Lambda_3 << "   ";
 		cerr << pi00 << "   " << pi01 << "   " << pi02 << "   " << pi03 << "   "
 				<< pi11 << "   " << pi12 << "   " << pi13 << "   "
 				<< pi22 << "   " << pi23 << "   " << pi33 << endl;
