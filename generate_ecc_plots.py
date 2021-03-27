@@ -3,6 +3,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
+from datetime import datetime
 #from scipy import interpolate
 import os, sys
 
@@ -123,10 +124,13 @@ if __name__ == "__main__":
     # generate frames one by one
     e2TimeDependence = np.zeros(0)
     for loop, frameNumber in enumerate(range(minFrameNumber, maxFrameNumber)):
-        if skipToEnd and loop > 0 and loop < maxFrameNumber - 1:
+        if skipToEnd and loop > 0 and loop < maxFrameNumber - 15:
             continue
+        now = datetime.now()
+        current_time = now.strftime("%H:%M:%S")
         print('Generating frame =', frameNumber, ';', \
-               maxFrameNumber - frameNumber, 'frames remaining')
+              maxFrameNumber - frameNumber, 'frames remaining at', \
+              current_time, flush=True)
         e2s = generate_eccentricity(frameNumber)
         if loop==0:
             e2TimeDependence = e2s
