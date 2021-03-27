@@ -22,6 +22,7 @@ energyCutOff = False
 eDec = float(sys.argv[4])/hbarc
 
 skipToEnd = True   # only care about final time step
+endLoopToCompute = int(sys.argv[5])
 
 colorsToUse = ['black','red','purple','blue','green','orange']
 
@@ -124,12 +125,12 @@ if __name__ == "__main__":
     # generate frames one by one
     e2TimeDependence = np.zeros(0)
     for loop, frameNumber in enumerate(range(minFrameNumber, maxFrameNumber)):
-        if skipToEnd and loop > 0 and loop < maxFrameNumber - 15:
+        if skipToEnd and loop > 0 and loop != endLoopToCompute:
             continue
         now = datetime.now()
         current_time = now.strftime("%H:%M:%S")
         print('Generating frame =', frameNumber, ';', \
-              maxFrameNumber - frameNumber, 'frames remaining at', \
+              maxFrameNumber - frameNumber - 1, 'frames remaining at', \
               current_time, flush=True)
         e2s = generate_eccentricity(frameNumber)
         if loop==0:
