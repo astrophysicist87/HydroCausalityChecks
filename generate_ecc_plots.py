@@ -16,9 +16,11 @@ outpath = inpath
 
 tau = 0.6   #initial tau (fm/c), overwritten by value in file
 
-energyCutOff = True
+energyCutOff = False
 #eDec = 0.18/hbarc  # impose cut off in fm^{-4}
 eDec = float(sys.argv[4])/hbarc
+
+skipToEnd = True   # only care about final time step
 
 colorsToUse = ['black','red','purple','blue','green','orange']
 
@@ -121,6 +123,8 @@ if __name__ == "__main__":
     # generate frames one by one
     e2TimeDependence = np.zeros(0)
     for loop, frameNumber in enumerate(range(minFrameNumber, maxFrameNumber)):
+        if skipToEnd and loop > 0 and loop < maxFrameNumber - 1:
+            continue
         print('Generating frame =', frameNumber, ';', \
                maxFrameNumber - frameNumber, 'frames remaining')
         e2s = generate_eccentricity(frameNumber)
@@ -133,7 +137,7 @@ if __name__ == "__main__":
     
     filenameStem = ''
     if energyCutOff:
-        filenameStem = '_w_eCut'
+        filenameStem = '_w_eCut_'+str(eDec*hbarc)+'GeV'
     
     # export to file in case plotting fails
     np.savetxt( outpath + '/e2_ALL_vs_tau' + filenameStem + '.dat', e2TimeDependence )
