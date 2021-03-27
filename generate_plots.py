@@ -121,7 +121,7 @@ def generate_frames(frameNumbers):
     #plt.show()
     outfilename = outpath + '/frame_sequence.png'
     print('Saving to', outfilename)
-    fig.savefig(outfilename, bbox_inches='tight')
+    fig.savefig(outfilename, bbox_inches='tight', dpi=300)
     plt.close(fig)
         
 

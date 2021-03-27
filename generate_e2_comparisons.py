@@ -5,13 +5,13 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 import os, sys
 
-inpath = "C:/Users/Christopher Plumberg/Desktop/Research/UIUC/HydroCausalityChecks/all_results_v4/"
+inpath = "C:/Users/Christopher Plumberg/Desktop/Research/UIUC/HydroCausalityChecks/all_results_v6/"
 
 #maxtaus = {'EKT': 18.4, 'FS': 19.6, 'no': 19.2, 'Duke': 12.2}
-maxtaus = {'EKT': 14.2, 'FS': 14.8, 'no': 21.4, 'Duke': 12.2}
-paths = {'EKT': 'MUSIC_v4_PbPb_EKTKompost_results',
-         'FS': 'MUSIC_v4_PbPb_FSKompost_results',
-         'no': 'MUSIC_v4_PbPb_noKompost_results',
+maxtaus = {'EKT': 14.8, 'FS': 15.6, 'no': 15.6, 'Duke': 12.2}
+paths = {'EKT': 'MUSIC_v6_PbPb_EKTKompost_results',
+         'FS': 'MUSIC_v6_PbPb_FSKompost_results',
+         'no': 'MUSIC_v6_PbPb_noKompost_results',
          'Duke': 'OSUhydro_RESULTS_OPTIMAL_FINAL_TAUFS116_RS1'}
 #paths = {'EKT': 'MUSIC_results_newE2P_PbPb_EKTKompost',
 #         'FS': 'MUSIC_results_newE2P_PbPb_FSKompost',
@@ -116,7 +116,7 @@ def generate_ALL_e2_time_dependences():
             horizontalalignment='center', verticalalignment='top')
 
     axs[0].set_ylim(bottom=-0.0025, top=0.1)
-    axs[1].set_ylim([-0.004375,0.175])
+    axs[1].set_ylim([-0.003125,0.125])
     axs[0].set_xlabel(r'$\Delta\tau/\Delta\tau_{\mathrm{max}}$', fontsize=16)
     axs[1].set_xlabel(r'$\Delta\tau/\Delta\tau_{\mathrm{max}}$', fontsize=16)
     #axs[0].set_ylabel(r'$\epsilon_{2,p}$', fontsize=16)

@@ -4,9 +4,9 @@ from matplotlib.colors import ListedColormap
 import os, sys
 
 hbarc = 0.19733     # GeV*fm
-path = "C:/Users/Christopher Plumberg/Desktop/Research/UIUC/HydroCausalityChecks/all_results_v4/"
+path = "C:/Users/Christopher Plumberg/Desktop/Research/UIUC/HydroCausalityChecks/all_results_v6/"
 
-maxtaus = {'EKT': 14.2, 'FS': 14.8, 'no': 21.4, 'Duke': 12.2}
+maxtaus = {'EKT': 14.8, 'FS': 15.6, 'no': 15.6, 'Duke': 12.2}
 colors = ['orange', 'green', 'blue', 'purple', 'red']
 
 
@@ -48,7 +48,7 @@ def generate_fraction_time_dependence( data1, data2, data3, data4, lw ):
     plt.gca().add_artist(legend1)'''
 
     for ax in axs.ravel():
-        ax.set_xlim([0,0.65])
+        ax.set_xlim([-0.005,0.65])
         ax.set_ylim([-0.025,1.025])
         ax.set_xlabel(r'$\Delta\tau/\Delta\tau_{\mathrm{max}}$', fontsize=16)
         #ax.set_xlabel(r'$(\tau-\tau_0)/(\tau_{\mathrm{max}}-\tau_0)$', fontsize=16)
@@ -81,11 +81,11 @@ def generate_fraction_time_dependence( data1, data2, data3, data4, lw ):
 #===============================================================================
 if __name__ == "__main__":
     # import datasets
-    IPGlasmaEKTKompostMUSIC = np.loadtxt(path + 'MUSIC_v4_PbPb_EKTKompost_results/' \
+    IPGlasmaEKTKompostMUSIC = np.loadtxt(path + 'MUSIC_v6_PbPb_EKTKompost_results/' \
                                          + 'cell_fractions_tau_dependence.dat')
-    IPGlasmaFSKompostMUSIC = np.loadtxt(path + 'MUSIC_v4_PbPb_FSKompost_results/' \
+    IPGlasmaFSKompostMUSIC = np.loadtxt(path + 'MUSIC_v6_PbPb_FSKompost_results/' \
                                          + 'cell_fractions_tau_dependence.dat')
-    IPGlasmanoKompostMUSIC = np.loadtxt(path + 'MUSIC_v4_PbPb_noKompost_results/' \
+    IPGlasmanoKompostMUSIC = np.loadtxt(path + 'MUSIC_v6_PbPb_noKompost_results/' \
                                          + 'cell_fractions_tau_dependence.dat')
     TrentoFSVishnu = np.loadtxt(path + 'OSUhydro_RESULTS_OPTIMAL_FINAL_TAUFS116_RS1/' \
                                          + 'cell_fractions_tau_dependence.dat')
