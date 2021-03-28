@@ -21,7 +21,7 @@
 
 using namespace std;
 
-const double epsilon = 1e-6;
+const double epsilon = 1e-4;
 
 bool test_mode;
 
