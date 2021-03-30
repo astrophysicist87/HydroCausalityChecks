@@ -12,7 +12,7 @@ maxtaus = {'EKT': 14.8, 'FS': 15.6, 'no': 15.6, 'Duke': 12.2}
 paths = {'EKT': 'MUSIC_v6_PbPb_EKTKompost_results',
          'FS': 'MUSIC_v6_PbPb_FSKompost_results',
          'no': 'MUSIC_v6_PbPb_noKompost_results',
-         'Duke': 'OSUhydro_RESULTS_OPTIMAL_FINAL_TAUFS116_RS1'}
+         'Duke': 'OSUhydro_test_all'}
 #paths = {'EKT': 'MUSIC_results_newE2P_PbPb_EKTKompost',
 #         'FS': 'MUSIC_results_newE2P_PbPb_FSKompost',
 #         'no': 'MUSIC_results_newE2P_PbPb_noKompost',

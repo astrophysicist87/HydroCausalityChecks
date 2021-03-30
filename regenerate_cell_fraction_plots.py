@@ -70,11 +70,11 @@ def generate_fraction_time_dependence( data1, data2, data3, data4, lw ):
     axs[2].legend( loc='best', fontsize=14 )
     axs[0].set_ylabel(r'Fraction of total', fontsize=16)
 
-    #plt.show()
+    plt.show()
     outfilename = path + '/cell_fractions_tau_dependence.pdf'
     print('Saving to', outfilename)
-    fig.savefig(outfilename, bbox_inches='tight')
-    plt.close(fig)
+    #fig.savefig(outfilename, bbox_inches='tight')
+    #plt.close(fig)
 
 
 
@@ -87,7 +87,9 @@ if __name__ == "__main__":
                                          + 'cell_fractions_tau_dependence.dat')
     IPGlasmanoKompostMUSIC = np.loadtxt(path + 'MUSIC_v6_PbPb_noKompost_results/' \
                                          + 'cell_fractions_tau_dependence.dat')
-    TrentoFSVishnu = np.loadtxt(path + 'OSUhydro_RESULTS_OPTIMAL_FINAL_TAUFS116_RS1/' \
+    #TrentoFSVishnu = np.loadtxt(path + 'OSUhydro_RESULTS_OPTIMAL_FINAL_TAUFS116_RS1/' \
+    #                                     + 'cell_fractions_tau_dependence.dat')
+    TrentoFSVishnu = np.loadtxt(path + 'OSUhydro_test_all/' \
                                          + 'cell_fractions_tau_dependence.dat')
     
     generate_fraction_time_dependence( IPGlasmaEKTKompostMUSIC, IPGlasmaFSKompostMUSIC,
