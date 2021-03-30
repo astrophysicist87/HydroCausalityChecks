@@ -1,4 +1,3 @@
-
 *.exe
 *.dat
 *.png
@@ -11,3 +10,9 @@ resultsFiles/initial.hdf
 *.log
 *.gz
 *.docx
+*.bbl
+serial.[oe]*
+*.tex
+*.bib
+*.out
+*.blg
