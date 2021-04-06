@@ -5,13 +5,15 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 import os, sys
 
-inpath = "C:/Users/Christopher Plumberg/Desktop/Research/UIUC/HydroCausalityChecks/all_results_v6/"
+versionLabel = "v8"
+inpath = "C:/Users/Christopher Plumberg/Desktop/Research/UIUC/HydroCausalityChecks/all_results_" + versionLabel + "/"
 
 #maxtaus = {'EKT': 18.4, 'FS': 19.6, 'no': 19.2, 'Duke': 12.2}
-maxtaus = {'EKT': 14.8, 'FS': 15.6, 'no': 15.6, 'Duke': 12.2}
-paths = {'EKT': 'MUSIC_v6_PbPb_EKTKompost_results',
-         'FS': 'MUSIC_v6_PbPb_FSKompost_results',
-         'no': 'MUSIC_v6_PbPb_noKompost_results',
+#maxtaus = {'EKT': 14.8, 'FS': 15.6, 'no': 15.6, 'Duke': 12.2}
+maxtaus = {'EKT': 15.6, 'FS': 16.4, 'no': 15.8, 'Duke': 12.2}
+paths = {'EKT': 'MUSIC_' + versionLabel + '_PbPb_EKTKompost_results',
+         'FS': 'MUSIC_' + versionLabel + '_PbPb_FSKompost_results',
+         'no': 'MUSIC_' + versionLabel + '_PbPb_noKompost_results',
          'Duke': 'OSUhydro_test_all'}
 #paths = {'EKT': 'MUSIC_results_newE2P_PbPb_EKTKompost',
 #         'FS': 'MUSIC_results_newE2P_PbPb_FSKompost',
@@ -41,31 +43,6 @@ def get_halfCausal_tau(pathToRead):
     f = lambda x : np.interp(x, cellFractionData[:,0], cellFractionData[:,1])-0.5
     # make a reasonable guess for when causal cell fraction is 50%
     return fsolve( f, 3.0 )
-
-
-#===============================================================================
-def generate_e2_time_dependence( mode, outpath, e2TimeDependence ):
-    fig, axs = plt.subplots( nrows=1, ncols=1, figsize=(5,5) )
-    
-    plt.axhline(0.0, color='black')
-
-    #axs.plot( e2TimeDependence[:,0]/maxtaus[mode], e2TimeDependence[:,1], color='magenta', lw=2,
-    #          ls=linestyles[mode], label=r'$\epsilon_{2,p}$, ideal $T^{\mu\nu}$' )
-    axs.plot( e2TimeDependence[:,0]/maxtaus[mode], e2TimeDependence[:,2], color='cyan', lw=2,
-              label=r'$\epsilon_{2,p}$, full $T^{\mu\nu}$' )
-    axs.plot( e2TimeDependence[:,0]/maxtaus[mode], e2TimeDependence[:,3], color='magenta', lw=2,
-              label=r'$\epsilon_{2,x}$' )
-            
-    axs.set_xlabel(r'$\tau/\tau_{\mathrm{max}}$', fontsize=16)
-    axs.set_ylabel(r'$\epsilon_2$', fontsize=16)
-    axs.legend( loc='best' )
-
-    plt.show()
-    #outfilename = outpath + '/e2_integ_vs_tau.pdf'
-    #print('Saving to', outfilename)
-    #fig.savefig(outfilename, bbox_inches='tight')
-    #plt.close(fig)
-
 
 #===============================================================================
 def generate_ALL_e2_time_dependences():
@@ -126,25 +103,14 @@ def generate_ALL_e2_time_dependences():
     #axs[0].legend( loc='best' )
     axs[1].legend( loc='best' )
 
-    #plt.show()
+    plt.show()
     outfilename = inpath + '/e2_vs_tau_comparison.pdf'
     print('Saving to', outfilename)
-    fig.savefig(outfilename, bbox_inches='tight')
-    plt.close(fig)
+    #fig.savefig(outfilename, bbox_inches='tight')
+    #plt.close(fig)
     
 #===============================================================================
 if __name__ == "__main__":
-    '''for mode in ['EKT', 'FS', 'no', 'Duke']:
-        # import file
-        e2TauDependence \
-            = np.loadtxt( inpath + 'all_results/'+ paths[mode] + '/' + e2Filenames[mode],
-                          skiprows=1, usecols=colsToUse[mode])
-        
-        e2TauDependence = e2TauDependence[ np.where( e2TauDependence[:,0] <= maxtaus[mode] )]
-        
-        outpath = inpath + 'all_results/' + paths[mode] + '/'
-        generate_e2_time_dependence( mode, outpath, e2TauDependence )'''
-
     generate_ALL_e2_time_dependences()
 
 

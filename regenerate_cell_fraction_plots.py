@@ -4,9 +4,10 @@ from matplotlib.colors import ListedColormap
 import os, sys
 
 hbarc = 0.19733     # GeV*fm
-path = "C:/Users/Christopher Plumberg/Desktop/Research/UIUC/HydroCausalityChecks/all_results_v6/"
+versionLabel = "v8"
+path = "C:/Users/Christopher Plumberg/Desktop/Research/UIUC/HydroCausalityChecks/all_results_" + versionLabel + "/"
 
-maxtaus = {'EKT': 14.8, 'FS': 15.6, 'no': 15.6, 'Duke': 12.2}
+maxtaus = {'EKT': 15.6, 'FS': 16.4, 'no': 15.8, 'Duke': 12.2}
 colors = ['orange', 'green', 'blue', 'purple', 'red']
 
 
@@ -81,11 +82,11 @@ def generate_fraction_time_dependence( data1, data2, data3, data4, lw ):
 #===============================================================================
 if __name__ == "__main__":
     # import datasets
-    IPGlasmaEKTKompostMUSIC = np.loadtxt(path + 'MUSIC_v6_PbPb_EKTKompost_results/' \
+    IPGlasmaEKTKompostMUSIC = np.loadtxt(path + 'MUSIC_' + versionLabel + '_PbPb_EKTKompost_results/' \
                                          + 'cell_fractions_tau_dependence.dat')
-    IPGlasmaFSKompostMUSIC = np.loadtxt(path + 'MUSIC_v6_PbPb_FSKompost_results/' \
+    IPGlasmaFSKompostMUSIC = np.loadtxt(path + 'MUSIC_' + versionLabel + '_PbPb_FSKompost_results/' \
                                          + 'cell_fractions_tau_dependence.dat')
-    IPGlasmanoKompostMUSIC = np.loadtxt(path + 'MUSIC_v6_PbPb_noKompost_results/' \
+    IPGlasmanoKompostMUSIC = np.loadtxt(path + 'MUSIC_' + versionLabel + '_PbPb_noKompost_results/' \
                                          + 'cell_fractions_tau_dependence.dat')
     #TrentoFSVishnu = np.loadtxt(path + 'OSUhydro_RESULTS_OPTIMAL_FINAL_TAUFS116_RS1/' \
     #                                     + 'cell_fractions_tau_dependence.dat')
