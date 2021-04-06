@@ -2,22 +2,35 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os, sys
 
-path='C:/Users/Christopher Plumberg/Desktop/Research/UIUC/HydroCausalityChecks/KRevo_frame0000.dat'
-#inpath=sys.argv[1]
-#outpath=sys.argv[2]
+#path='C:/Users/Christopher Plumberg/Desktop/Research/UIUC/HydroCausalityChecks/KRevo_frame0000.dat'
+inpath=sys.argv[1]
+outpath=sys.argv[2]
 #nFiles=int(sys.argv[3])
 
-KRdata = np.loadtxt(path)
+KRdata = np.loadtxt(inpath)
 
-fig, ax = plt.subplots( nrows=1, ncols=1, figsize=(8,8) )
+tau = KRdata[0,0]
+
+fig, ax = plt.subplots( nrows=1, ncols=1, figsize=(6,6) )
 im = ax.imshow(KRdata[:,-2].reshape([512,512]), interpolation='nearest', origin='lower', \
                       extent=[-20.48,20.48,-20.48,20.48], \
                       cmap=plt.get_cmap('gnuplot2'), vmin=0.0, vmax=5.0)
 
-cbar = plt.colorbar(im, fraction=0.046, pad=0.04, label=r'$R_\pi$')
+cbar = plt.colorbar(im, fraction=0.046, pad=0.04)
+cbar.set_label(label=r'$R_\pi$', size=16, weight='bold')
 
-plt.show()
+plt.text(0.075, 0.925, r'$\tau = %(t)5.2f$ fm$/c$'%{'t': tau}, \
+        {'color': 'white', 'fontsize': 12}, transform=ax.transAxes,
+        horizontalalignment='left', verticalalignment='top')
+        
+ax.set_xlabel(r'$x$ (fm)', fontsize=16)
+ax.set_ylabel(r'$y$ (fm)', fontsize=16)
 
+#plt.show()
+outfilename = outpath
+print('Saving to', outfilename)
+fig.savefig(outfilename, bbox_inches='tight', dpi=300)
+plt.close(fig)
 
 '''for i in range(nFiles):
     path = inpath + '/KRevo_frame{:04}.dat'.format(i)
