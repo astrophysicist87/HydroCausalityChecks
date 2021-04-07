@@ -17,10 +17,13 @@ tau = KRdata[0,0]
 
 eDec=0.18
 eBelowFO = np.where(KRdata[:,3] < eDec/hbarc)
-KRdata[eBelowFO,[-2,-1]] = 0.0
+Rpi = KRdata[:,-2]
+RPi = KRdata[:,-1]
+Rpi[eBelowFO] = 0.0
+RPi[eBelowFO] = 0.0
 
 fig, ax = plt.subplots( nrows=1, ncols=1, figsize=(6,6) )
-im = ax.imshow(KRdata[:,-2].reshape([512,512]), interpolation='nearest', origin='lower', \
+im = ax.imshow(Rpi.reshape([512,512]), interpolation='nearest', origin='lower', \
                       extent=[-20.48,20.48,-20.48,20.48], \
                       cmap=plt.get_cmap('gnuplot2'), vmin=0.0, vmax=5.0)
 
