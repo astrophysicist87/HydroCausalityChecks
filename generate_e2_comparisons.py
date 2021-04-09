@@ -103,11 +103,11 @@ def generate_ALL_e2_time_dependences():
     #axs[0].legend( loc='best' )
     axs[1].legend( loc='best' )
 
-    plt.show()
-    outfilename = inpath + '/e2_vs_tau_comparison.pdf'
+    #plt.show()
+    outfilename = inpath + '/e2_vs_tau_comparison.png'
     print('Saving to', outfilename)
-    #fig.savefig(outfilename, bbox_inches='tight')
-    #plt.close(fig)
+    fig.savefig(outfilename, bbox_inches='tight', dpi=300)
+    plt.close(fig)
     
 #===============================================================================
 if __name__ == "__main__":

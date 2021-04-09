@@ -71,11 +71,11 @@ def generate_fraction_time_dependence( data1, data2, data3, data4, lw ):
     axs[2].legend( loc='best', fontsize=14 )
     axs[0].set_ylabel(r'Fraction of total', fontsize=16)
 
-    plt.show()
-    outfilename = path + '/cell_fractions_tau_dependence.pdf'
+    #plt.show()
+    outfilename = path + '/cell_fractions_tau_dependence.png'
     print('Saving to', outfilename)
-    #fig.savefig(outfilename, bbox_inches='tight')
-    #plt.close(fig)
+    fig.savefig(outfilename, bbox_inches='tight', dpi=300)
+    plt.close(fig)
 
 
 

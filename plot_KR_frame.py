@@ -1,12 +1,12 @@
 import numpy as np
-import matplotlib
-matplotlib.use('Agg')
+#import matplotlib
+#matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import os, sys
 
 hbarc = 0.19733
 
-#path='C:/Users/Christopher Plumberg/Desktop/Research/UIUC/HydroCausalityChecks/KRevo_frame0000.dat'
+#inpath='C:/Users/Christopher Plumberg/Desktop/Research/UIUC/HydroCausalityChecks/KRevo_ePlusp_frame0000.dat'
 inpath=sys.argv[1]
 outpath=sys.argv[2]
 #nFiles=int(sys.argv[3])
@@ -27,7 +27,7 @@ RPi[eBelowFO] = 0.0
 fig, ax = plt.subplots( nrows=1, ncols=1, figsize=(6,6) )
 im = ax.imshow(Rpi.reshape([512,512]), interpolation='nearest', origin='lower', \
                       extent=[-20.48,20.48,-20.48,20.48], \
-                      cmap=plt.get_cmap('gnuplot2'), vmin=0.0, vmax=5.0)
+                      cmap=plt.get_cmap('gnuplot2'), vmin=0.0, vmax=1.0)
 
 cbar = plt.colorbar(im, fraction=0.046, pad=0.04)
 cbar.set_label(label=r'$\mathrm{Re}^{-1}_\pi$', size=16, weight='bold')
@@ -52,7 +52,7 @@ plt.close(fig)
 fig, ax = plt.subplots( nrows=1, ncols=1, figsize=(6,6) )
 im = ax.imshow(RPi.reshape([512,512]), interpolation='nearest', origin='lower', \
                       extent=[-20.48,20.48,-20.48,20.48], \
-                      cmap=plt.get_cmap('gnuplot2'), vmin=0.0, vmax=5.0)
+                      cmap=plt.get_cmap('gnuplot2'), vmin=0.0, vmax=1.0)
 
 cbar = plt.colorbar(im, fraction=0.046, pad=0.04)
 cbar.set_label(label=r'$\mathrm{Re}^{-1}_\Pi$', size=16, weight='bold')
