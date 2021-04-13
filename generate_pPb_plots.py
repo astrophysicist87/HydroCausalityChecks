@@ -120,7 +120,7 @@ def generate_frames(frameNumbers):
     plt.text(0.075, 0.175, 'T$_{\\rm R}$ENTo + free-streaming', \
         {'color': 'white', 'fontsize': 12}, transform=axs.transAxes,
         horizontalalignment='left', verticalalignment='top')
-    plt.text(0.1, 0.12, '+ iEBE-VISHNU', \
+    plt.text(0.15, 0.11, '+ iEBE-VISHNU', \
         {'color': 'white', 'fontsize': 12}, transform=axs.transAxes,
         horizontalalignment='left', verticalalignment='top')
 
