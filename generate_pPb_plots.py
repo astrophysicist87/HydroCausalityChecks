@@ -98,24 +98,24 @@ def generate_frames(frameNumbers):
         #axs[i].imshow(H.astype(int), interpolation='nearest', origin='low', \
         #              extent=[-scalex-0.5*dx,scalex+0.5*dx,-scaley-0.5*dy,scaley+0.5*dy], \
         #              cmap=ListedColormap(colorsToUse), vmin=0, vmax=(len(colorsToUse)-1))
-        axs[i].imshow(H.astype(int), interpolation='nearest', origin='low', \
+        axs.imshow(H.astype(int), interpolation='nearest', origin='low', \
                       extent=[-6.98,6.98,-6.98,6.98], \
                       cmap=ListedColormap(colorsToUse), vmin=0, vmax=(len(colorsToUse)-1))
                       
         plt.text(0.075, 0.925, r'$\tau = %(t)5.2f$ fm$/c$'%{'t': tau}, \
-                {'color': 'white', 'fontsize': 12}, transform=axs[i].transAxes,
+                {'color': 'white', 'fontsize': 12}, transform=axs.transAxes,
                 horizontalalignment='left', verticalalignment='top')
                 
-        axs[i].set_xlabel(r'$x$ (fm)', fontsize=16)
-        axs[i].set_xticks([-10,0,10])
+        axs.set_xlabel(r'$x$ (fm)', fontsize=16)
+        axs.set_xticks([-10,0,10])
         if i==0:
-            axs[i].set_ylabel(r'$y$ (fm)', fontsize=16)
-            axs[i].set_yticks([-10,0,10])
+            axs.set_ylabel(r'$y$ (fm)', fontsize=16)
+            axs.set_yticks([-10,0,10])
         
 
 
     plt.text(0.075, 0.15, hydroString, \
-        {'color': 'white', 'fontsize': 12}, transform=axs[0].transAxes,
+        {'color': 'white', 'fontsize': 12}, transform=axs.transAxes,
         horizontalalignment='left', verticalalignment='top')
 
     #plt.show()
