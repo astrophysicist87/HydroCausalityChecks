@@ -114,7 +114,13 @@ def generate_frames(frameNumbers):
         
 
 
-    plt.text(0.075, 0.15, hydroString, \
+    #plt.text(0.075, 0.15, hydroString, \
+    #    {'color': 'white', 'fontsize': 12}, transform=axs.transAxes,
+    #    horizontalalignment='left', verticalalignment='top')
+    plt.text(0.075, 0.175, 'T$_{\rm R}$ENTo + free-streaming', \
+        {'color': 'white', 'fontsize': 12}, transform=axs.transAxes,
+        horizontalalignment='left', verticalalignment='top')
+    plt.text(0.1, 0.175, '+ iEBE-VISHNU', \
         {'color': 'white', 'fontsize': 12}, transform=axs.transAxes,
         horizontalalignment='left', verticalalignment='top')
 
