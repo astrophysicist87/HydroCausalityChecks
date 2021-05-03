@@ -120,7 +120,7 @@ def generate_frames(frameNumbers):
         {'color': 'white', 'fontsize': 12}, transform=axs.transAxes,
         horizontalalignment='left', verticalalignment='top')
     
-    plt.text(0.8, 0.9, 'p+Pb', \
+    plt.text(0.75, 0.925, 'p+Pb', \
         {'color': 'white', 'fontsize': 14}, transform=axs.transAxes,
         horizontalalignment='left', verticalalignment='top')
 
