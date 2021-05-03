@@ -94,10 +94,6 @@ def generate_frames(frameNumbers):
         H = H.T
         H = H[ np.where( np.abs(yedges)<=6.98 ) ]
         print('H.shape =', H.shape)
-        #print(1/0)
-        #axs[i].imshow(H.astype(int), interpolation='nearest', origin='low', \
-        #              extent=[-scalex-0.5*dx,scalex+0.5*dx,-scaley-0.5*dy,scaley+0.5*dy], \
-        #              cmap=ListedColormap(colorsToUse), vmin=0, vmax=(len(colorsToUse)-1))
         axs.imshow(H.astype(int), interpolation='nearest', origin='low', \
                       extent=[-6.98,6.98,-6.98,6.98], \
                       cmap=ListedColormap(colorsToUse), vmin=0, vmax=(len(colorsToUse)-1))
@@ -123,9 +119,13 @@ def generate_frames(frameNumbers):
     plt.text(0.25, 0.1, '+ iEBE-VISHNU', \
         {'color': 'white', 'fontsize': 12}, transform=axs.transAxes,
         horizontalalignment='left', verticalalignment='top')
+    
+    plt.text(0.8, 0.9, 'p+Pb', \
+        {'color': 'white', 'fontsize': 14}, transform=axs.transAxes,
+        horizontalalignment='left', verticalalignment='top')
 
     #plt.show()
-    outfilename = outpath + '/frame_sequence.png'
+    outfilename = outpath + '/frame_sequence_wLabel.png'
     print('Saving to', outfilename)
     fig.savefig(outfilename, bbox_inches='tight', dpi=300)
     plt.close(fig)
