@@ -4,7 +4,8 @@ import numpy as np
 #matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-filename = 'C:/Users/Christopher Plumberg/Desktop/Research/UIUC/initial.hdf'
+#filename = 'C:/Users/Christopher Plumberg/Desktop/Research/UIUC/initial.hdf'
+filename = 'C:/Users/Christopher Plumberg/Downloads/initial.hdf'
 
 fig, ax = plt.subplots( nrows=1, ncols=1 )
 
@@ -28,9 +29,11 @@ with h5py.File(filename, "r") as f:
     ev = f['event_0']
     print(ev.attrs.keys())
     
+    #ax.imshow(data, interpolation='nearest', \
+    #          origin='lower', extent=[-nx*dx, nx*dx, -ny*dy, ny*dy],
+    #          cmap=plt.get_cmap('gnuplot'))
     ax.imshow(data, interpolation='nearest', \
-              origin='lower', extent=[-nx*dx, nx*dx, -ny*dy, ny*dy],
-              cmap=plt.get_cmap('gnuplot'))
+              origin='lower', cmap=plt.get_cmap('gnuplot'))
                   
     #plt.text(0.075, 0.925, r'$\tau = %(t)5.2f$ fm$/c$'%{'t': tau}, \
     #        {'color': 'white', 'fontsize': 12}, transform=ax.transAxes,
@@ -39,8 +42,9 @@ with h5py.File(filename, "r") as f:
     ax.set_xlabel(r'$x$ (fm)', fontsize=16)
     ax.set_ylabel(r'$y$ (fm)', fontsize=16)
     
-    plt.show()
+    #plt.show()
     #outfilename = 'C:/Users/Christopher Plumberg/Desktop/Research/UIUC/initial_Duke.pdf'
+    outfilename = 'C:/Users/Christopher Plumberg/Downloads/initial.png'
     #print('Saving to', outfilename)
-    #fig.savefig(outfilename, bbox_inches='tight')
-    #plt.close(fig)
+    fig.savefig(outfilename, bbox_inches='tight')
+    plt.close(fig)

@@ -2,7 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 #import glob
 
-path = 'C:/Users/Christopher Plumberg/Desktop/Research/UIUC/HydroCausalityChecks/all_results_v8/'
+#path = 'C:/Users/Christopher Plumberg/Desktop/Research/UIUC/HydroCausalityChecks/all_results_v8/'
+path = 'C:/Users/Christopher Plumberg/Downloads/'
 #filenames = [path + 'edFiles/RESULTS_OPTIMAL_FINAL_TAUFS0_TAU0_1_RS1/ed.dat']
 filenames = [path + 'ed.dat']
 
